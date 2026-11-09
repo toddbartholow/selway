@@ -55,25 +55,43 @@ private final class ActivityLog {
     #expect(t1.isCancelled && t2.isCancelled)
 }
 
+/// Set from the operation's thread, read by the test.
+private final class IdleFlag: @unchecked Sendable {
+    private let lock = NSLock()
+    private var fired = false
+    func set() { lock.lock(); fired = true; lock.unlock() }
+    var isSet: Bool { lock.lock(); defer { lock.unlock() }; return fired }
+}
+
 /// "Stop and Quit": a cancelled copy stops between items, so no item is left
 /// half-written under its real name, and then the tracker goes idle.
-@Test func fileOpsStopAndQuitLeavesNoPartialItem() throws {
+///
+/// The copy runs on a user-initiated queue, as the app's file operations do, and
+/// the test awaits it rather than blocking a thread. On a 3-core CI runner the
+/// whole suite runs at once: a block on the global queue, waited for by a semaphore
+/// that held one of the test pool's threads, didn't finish within 10 s. The copy now
+/// runs on its own serial queue, as the app's file operations do; GCD gives such a
+/// queue a thread even when the shared pool is full, which the global queue doesn't
+/// get, so don't move it back there. The deadline only catches a real hang.
+@Test func fileOpsStopAndQuitLeavesNoPartialItem() async throws {
     let dir = try TempDir(); defer { dir.cleanup() }
     let sources = try (1...50).map { try dir.file("src/\($0).bin", bytes: 64 * 1024) }
     let dest = try dir.dir("dest")
     let tracker = ActivityLog().tracker()
     let token = FileOpsCancellationToken()
     let id = tracker.begin("Copying", token: token)
-    let idle = DispatchSemaphore(value: 0)
-    tracker.whenIdle { idle.signal() }
+    let idle = IdleFlag()
+    tracker.whenIdle { idle.set() }
 
-    DispatchQueue.global().async {
+    DispatchQueue(label: "FileOpsActivityTests.copy", qos: .userInitiated).async {
         _ = FileOpsTransfer.transfer(sources, into: dest, mode: .copy, token: token) { p in
             if p.completed == 3 { tracker.cancelAll() }
         }
         tracker.end(id)
     }
-    #expect(idle.wait(timeout: .now() + 10) == .success)
+    let deadline = Date().addingTimeInterval(60)
+    while !idle.isSet, Date() < deadline { try await Task.sleep(nanoseconds: 10_000_000) }
+    try #require(idle.isSet, "the cancelled copy didn't end within 60 s")
     let copied = try FileManager.default.contentsOfDirectory(atPath: dest.path)
     #expect(copied.count < sources.count)
     for name in copied {

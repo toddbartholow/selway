@@ -2,6 +2,12 @@
 
 ---
 
+## 0.5.22
+
+- The About window drops its Website button: the GitHub button covers it, and the
+  project's web page now forwards to the GitHub repository. The other four buttons sit
+  in two rows of two.
+
 ## 0.5.21
 
 - **A new icon**: the river now rises in a gap in the mountains, with mist at its

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Shared build / sign / notarize / checksum / appcast steps for release.sh and distribute.sh.
+# Shared build / sign / notarize / checksum / appcast steps for release.sh and other local builds.
 # Source it; don't run it. Every step exits non-zero with a message on failure.
 #
 # Publishing (see docs/RELEASING.md):
@@ -28,7 +28,7 @@
 #                       Developer ID: "Developer ID Application: Your Name (TEAMID)".
 #   SELWAY_NOTARY_PROFILE   notarytool keychain profile (xcrun notarytool store-credentials).
 #                       Required with a Developer ID identity unless SELWAY_SKIP_NOTARIZE=1
-#                       (distribute.sh only; release.sh refuses it, since its builds go into
+#                       (local test builds only; release.sh refuses it, since its builds go into
 #                       the appcast).
 #   SELWAY_NOTARY_TIMEOUT   how long to wait for notarization (default 1h).
 #   SELWAY_UPDATE_PRIVATE_KEY_FILE
@@ -87,7 +87,7 @@ selway_preflight() {
             || die "signing identity not found in the keychain: $SELWAY_SIGN_IDENTITY"
         if [ "${SELWAY_SKIP_NOTARIZE:-0}" != 1 ]; then
             [ -n "${SELWAY_NOTARY_PROFILE:-}" ] \
-                || die "SELWAY_NOTARY_PROFILE is required with a Developer ID identity (or set SELWAY_SKIP_NOTARIZE=1)."
+                || die "SELWAY_NOTARY_PROFILE is required with a Developer ID identity."
             xcrun --find notarytool >/dev/null 2>&1 || die "xcrun notarytool not found."
             xcrun --find stapler >/dev/null 2>&1 || die "xcrun stapler not found."
         fi

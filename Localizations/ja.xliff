@@ -3952,11 +3952,6 @@ Undo menu item title with file action</note>
         <target state="translated">拡張子を変更する前に警告を表示</target>
         <note>Shown as label in settings. It is also used as settings explanation in settings.</note>
       </trans-unit>
-      <trans-unit id="Website" xml:space="preserve">
-        <source>Website</source>
-        <target state="translated">Webサイト</target>
-        <note>About window button that opens Selway's website</note>
-      </trans-unit>
       <trans-unit id="Website, %@" xml:space="preserve">
         <source>Website, %@</source>
         <target state="translated">Webサイト、%@</target>

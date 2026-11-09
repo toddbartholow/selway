@@ -2,8 +2,8 @@
 
 One-time setup (the update-signing key, GitHub Pages and private vulnerability reporting
 on the public repository, optionally a Developer ID), then the steps for each release.
-`release.sh` and `distribute.sh` need a full Xcode install; the key tool works with the
-Command Line Tools alone.
+`release.sh` needs a full Xcode install; the key tool works with the Command Line
+Tools alone.
 
 How the pieces work inside is documented where they live: the Sparkle settings in
 `Selway/Info.plist`, the updater's rules in `UpdateManager.swift` and
@@ -71,8 +71,9 @@ release. The file must be outside any git checkout, owned by you and `chmod 600`
 
 ## One-time: GitHub Pages on the public repository
 
-The landing page (`docs/index.html`) and the feed (`docs/appcast.xml`) are served by GitHub
-Pages on `toddbartholow/selway`. Pages can only deploy from a branch that exists, so this is
+GitHub Pages on `toddbartholow/selway` serves the feed (`docs/appcast.xml`), plus a
+`docs/index.html` that only forwards visitors to the repository on GitHub (there is no
+separate web page). Pages can only deploy from a branch that exists, so this is
 set up during the first release, right after its final push to `main` (step 5.4 under "Each
 release"):
 
@@ -210,9 +211,6 @@ must be signed by the same Team ID; `release.sh` enforces this.
    4. From a **standard (non-admin) account**, with Selway in `/Applications`: Check for
       Updates… says Selway can't update itself there, without asking for an administrator
       password.
-
-`./distribute.sh` builds a quick single-architecture `build/Selway.dmg` for sharing. It
-never goes into the feed and doesn't touch the update key.
 
 To test the scripts without Xcode, `SELWAY_PREBUILT_APP=/path/to/Selway.app` packages an
 existing build, and `SELWAY_DMG_STYLE=0` skips styling the DMG window (which opens a Finder

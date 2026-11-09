@@ -4173,11 +4173,6 @@ Undo menu item title with file action</note>
         <target state="translated">Mostrar aviso antes de cambiar una extensión</target>
         <note>Shown as label in settings. It is also used as settings explanation in settings.</note>
       </trans-unit>
-      <trans-unit id="Website" xml:space="preserve">
-        <source>Website</source>
-        <target state="translated">Sitio web</target>
-        <note>About window button that opens Selway's website</note>
-      </trans-unit>
       <trans-unit id="Website, %@" xml:space="preserve">
         <source>Website, %@</source>
         <target state="translated">Sitio web, %@</target>

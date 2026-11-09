@@ -41,7 +41,7 @@ step "Preflight"
 # Everything that goes into the appcast must be notarized once Developer ID is in use: copies
 # that check the Team ID also expect Gatekeeper to accept the update.
 if selway_is_developer_id && [ "${SELWAY_SKIP_NOTARIZE:-0}" = 1 ]; then
-    die "SELWAY_SKIP_NOTARIZE=1 with a Developer ID identity: release.sh publishes to the appcast, which only takes notarized builds. Use distribute.sh for an un-notarized test build."
+    die "SELWAY_SKIP_NOTARIZE=1 with a Developer ID identity: release.sh publishes to the appcast, which only takes notarized builds."
 fi
 selway_preflight
 mkdir -p "$OUT" "$ARCHIVES"

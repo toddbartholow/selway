@@ -249,9 +249,8 @@ private struct AboutView: View {
                 .accessibilityIdentifier("aboutAuthor")
 
             VStack(spacing: 8) {
+                // Two rows of two: the project's pages, then a bug report and the licenses.
                 HStack(spacing: 8) {
-                    link(Text("Website", comment: "About window button that opens Selway's website"),
-                         id: "website", url: SelwayLinks.website)
                     link(Text("GitHub", comment: "Link button in the first-run window and the About window that opens Selway's GitHub page. A brand name, do not translate."),
                          id: "github", url: SelwayLinks.repository)
                     link(Text("Changelog", comment: "About window button that opens the list of changes in each Selway version"),

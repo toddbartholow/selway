@@ -35,17 +35,34 @@ final class BrowserModel {
     /// reacts to a new location, so a note is shown only for this folder.
     var backupNoteFolder: URL?
 
-    var selectedIDs: Set<String> = [] {
-        didSet { hasSelection = !selectedIDs.isEmpty }
+    /// Setting an equal selection notifies no one: every navigation clears it,
+    /// usually when it is already empty. Observed by hand because the
+    /// `@Observable` macro skips equal values only from Swift 6.2 on, and
+    /// Package.swift lets older compilers build Core, where each set would notify.
+    var selectedIDs: Set<String> {
+        get {
+            access(keyPath: \.selectedIDs)
+            return selection
+        }
+        set {
+            guard newValue != selection else { return }
+            // From the stored set, not the observed hasSelection getter, so a
+            // write inside a tracking scope doesn't start tracking hasSelection.
+            let had = !selection.isEmpty
+            withMutation(keyPath: \.selectedIDs) { selection = newValue }
+            let any = !newValue.isEmpty
+            if had != any { hasSelection = any }
+        }
     }
+    @ObservationIgnored private var selection: Set<String> = []
     /// The selected disk overview tile. It is separate from file selection:
     /// mounted volume IDs must never be treated as files in a folder listing.
     var overviewSelection: String?
     /// The tile opened from the overview, for restoring when Back returns there.
     var rememberedOverviewSelection: String?
     /// Not the count: selecting more items needn't update what only cares
-    /// whether there's a selection (the toolbar's delete buttons). Setting an
-    /// equal value notifies no one.
+    /// whether there's a selection (the toolbar's delete buttons). Set only
+    /// when it changes (see `selectedIDs`).
     private(set) var hasSelection = false
 
     // MARK: Listing

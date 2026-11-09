@@ -286,7 +286,14 @@ func fileOpsExtractThroughSymlinkUsesTargetsQuarantine(name: String) throws {
 /// Pkg/._Run.command (executable) and a link Pkg/Run.command -> ._Run.command
 /// gave a script that opened without a Gatekeeper check. Every entry, orphan
 /// "._" files and a "._X.app" bundle included, must get the archive's value.
-private func appleDoubleNamedArchive(named name: String, in dir: URL) throws -> URL {
+///
+/// bsdtar reads a "._" regular file as the AppleDouble metadata of the entry after
+/// it unless an AppleDouble entry of its own comes first, which a Mac writes only
+/// for files with extended attributes. So with `macMetadata` every planted item
+/// gets one, as files made on a Mac usually have (com.apple.provenance, for one),
+/// and the "._" files come out as files. Without it the tarball is like one made
+/// on Linux, or on a Mac from files with no extended attributes.
+private func appleDoubleNamedArchive(named name: String, in dir: URL, macMetadata: Bool = true) throws -> URL {
     let work = dir.appendingPathComponent("work"), downloads = dir.appendingPathComponent("downloads")
     try FileManager.default.createDirectory(at: downloads, withIntermediateDirectories: true)
     let archive = downloads.appendingPathComponent(name)
@@ -308,8 +315,18 @@ private func appleDoubleNamedArchive(named name: String, in dir: URL) throws -> 
         try FileOpsProcess.run("/usr/bin/zip", ["-r", "-y", "-q", archive.path, "--",
                                                 "./Pkg", "./._orphan", "./._X.app", "./readme.txt"], in: work)
     } else {
-        try FileOpsProcess.run("/usr/bin/tar", ["-c", "-z", "-f", archive.path, "-s", ",AD_,._,g",
-                                                "Pkg", "AD_orphan", "AD_X.app", "readme.txt"], in: work)
+        let items = ["Pkg", "AD_orphan", "AD_X.app", "readme.txt"]
+        var options = ["-c", "-z", "-f", archive.path, "-s", ",AD_,._,g"]
+        if macMetadata {
+            for case let rel as String in FileManager.default.enumerator(atPath: work.path)! {
+                let ok = setxattr(work.appendingPathComponent(rel).path, "org.example.selway-test",
+                                  "1", 1, 0, XATTR_NOFOLLOW) == 0
+                try #require(ok, "\(rel) has no extended attribute")
+            }
+        } else {
+            options += ["--no-mac-metadata", "--no-xattrs"]
+        }
+        try FileOpsProcess.run("/usr/bin/tar", options + items, in: work)
     }
     #expect(FileOpsQuarantine.set(Data("0083;65000000;Safari;".utf8), on: archive))
     return archive
@@ -331,6 +348,36 @@ func fileOpsExtractMarksAppleDoubleNamedFiles(name: String) throws {
     // The link is extracted as a link (Gatekeeper checks the file it leads to).
     let link = try FileManager.default.destinationOfSymbolicLink(atPath: out.appendingPathComponent("Pkg/Run.command").path)
     #expect(link == "._Run.command")
+}
+
+/// The same "._" names in a tarball without Mac metadata: bsdtar takes the "._"
+/// regular files for the metadata of the entries after them and doesn't extract
+/// them (Selway restores no stored metadata), so only the "._X.app" folder keeps
+/// its name. This pins that such a tarball extracts at all and that every item
+/// that comes out (seven, links aside) carries the archive's quarantine; the
+/// Mac-metadata case above covers quarantine on "._" files.
+@Test func fileOpsExtractMarksATarballWithoutMacMetadata() throws {
+    let dir = try tempDir(); defer { try? FileManager.default.removeItem(at: dir) }
+    let archive = try appleDoubleNamedArchive(named: "ad.tgz", in: dir, macMetadata: false)
+    let out = try FileOpsArchive.extract(archive)
+    for rel in ["Pkg", "._X.app/Contents/MacOS/X", "readme.txt"] {
+        #expect(FileManager.default.fileExists(atPath: out.appendingPathComponent(rel).path), "\(rel) is missing")
+    }
+    var checked = 0
+    func visit(_ url: URL, _ rel: String) throws {
+        let type = try FileManager.default.attributesOfItem(atPath: url.path)[.type] as? FileAttributeType
+        if type == .typeSymbolicLink { return }
+        let value = FileOpsQuarantine.value(of: url).map { String(decoding: $0, as: UTF8.self) }
+        #expect(value == "0083;65000000;Safari;", "\(rel) has \(value ?? "no quarantine")")
+        checked += 1
+        if type == .typeDirectory {
+            for name in try FileOpsDirectory.entries(atPath: url.path) {
+                try visit(url.appendingPathComponent(name), rel.isEmpty ? name : rel + "/" + name)
+            }
+        }
+    }
+    try visit(out, "")
+    #expect(checked == 7)
 }
 
 /// The unfiltered listing keeps "._" names that FileManager drops.

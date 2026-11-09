@@ -32327,41 +32327,6 @@
         }
       }
     },
-    "Website" : {
-      "comment" : "About window button that opens Selway's website",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sitio web"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Site web"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sito web"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Webサイト"
-          }
-        }
-      }
-    },
     "Website, %@" : {
       "comment" : "Acknowledgments window: VoiceOver label of the link to a component's website; the placeholder is the site's address, as in github.com",
       "localizations" : {

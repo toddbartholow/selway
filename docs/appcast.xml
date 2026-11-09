@@ -4,6 +4,18 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <channel>
         <title>Selway</title>
         <item>
+            <title>0.5.22</title>
+            <pubDate>Sun, 08 Nov 2026 17:58:48 -0800</pubDate>
+            <link>https://github.com/toddbartholow/selway/releases</link>
+            <sparkle:version>23</sparkle:version>
+            <sparkle:shortVersionString>0.5.22</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.22/Selway-0.5.22.dmg" length="8093540" type="application/octet-stream" sparkle:edSignature="JI5XG6CdWs5Q+PCn7Yza42se1dQoabyj621HXc7Y1wHf5lWmdwRUhzegR+3cLcbMXosOoKu1lUWFFP5tCysRCg=="></enclosure>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.22/Selway23-22.delta" sparkle:deltaFrom="22" length="393626" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="976240" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="Tu2y4EFIyFI/dPW9ejIQIP+vqzf3N6KFBORUChJurkSC6yxYBOnPBlHbdsHb5nM7SAv4ZDdQHAwJQBpcNNccAA=="></enclosure>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.5.21</title>
             <pubDate>Sun, 08 Nov 2026 15:28:20 -0800</pubDate>
             <link>https://github.com/toddbartholow/selway/releases</link>
@@ -14,6 +26,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
         </item>
     </channel>
 </rss><!-- sparkle-signatures:
-edSignature: NFq7bDwc3i/hYpAlp4xIyJrxsDu1EB3niJ4r2+ke9RwBGUyAuJDxj0yU+vIDZOojMXIrZ+r3hIZHNEepS88sBg==
-length: 1136
+edSignature: AomLq2okWqlinRsULvN9OBH+bXl+V+CKvxR1eyjuYFnZLml0dhlwDHv5eOIxyuB3oC46tcyRzuRayYwd61WZCg==
+length: 2302
 -->

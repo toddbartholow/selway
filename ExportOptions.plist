@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!-- Only for exporting an archive from Xcode (Organizer or xcodebuild -exportArchive) with a
-     Developer ID. release.sh and distribute.sh don't use it; see docs/RELEASING.md. -->
+     Developer ID. release.sh doesn't use it; see docs/RELEASING.md. -->
 <plist version="1.0">
 <dict>
 	<key>method</key>

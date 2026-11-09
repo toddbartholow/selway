@@ -10,9 +10,9 @@ import AppKit
 /// window appears.
 final class AboutWindowTests: SelwayUITestCase {
 
-    /// Each link button: its accessibility identifier, its title and the address it opens.
+    /// Each link button, in the window's order: its accessibility identifier, its title and
+    /// the address it opens. There is no Website button: the GitHub one covers it.
     private static let links: [(id: String, title: String, url: String)] = [
-        ("aboutLink-website", "Website", "https://toddbartholow.github.io/selway/"),
         ("aboutLink-github", "GitHub", "https://github.com/toddbartholow/selway"),
         ("aboutLink-changelog", "Changelog", "https://github.com/toddbartholow/selway/blob/main/CHANGELOG.md"),
         ("aboutLink-reportBug", "Report a bug", "https://github.com/toddbartholow/selway/issues/new"),
@@ -40,6 +40,21 @@ final class AboutWindowTests: SelwayUITestCase {
                           "\(link.title) opened “\(label(of: opened))”, not \(link.url)")
         }
         XCTAssertTrue(identified("aboutAcknowledgments", in: about).exists, "About has no Acknowledgments button")
+
+        // Just these links, and no Website button.
+        let linkButtons = about.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "aboutLink-"))
+        XCTAssertEqual(linkButtons.count, Self.links.count, "About has other link buttons")
+        XCTAssertFalse(about.buttons["Website"].exists, "About still has a Website button")
+
+        // Two rows of two, read left to right and then down: GitHub, Changelog, Report a
+        // bug, Acknowledgments.
+        let frames = (Self.links.map(\.id) + ["aboutAcknowledgments"]).map { identified($0, in: about).frame }
+        XCTAssertEqual(frames[0].midY, frames[1].midY, accuracy: 1, "GitHub and Changelog aren't on one row")
+        XCTAssertEqual(frames[2].midY, frames[3].midY, accuracy: 1, "Report a bug and Acknowledgments aren't on one row")
+        XCTAssertLessThan(frames[0].midX, frames[1].midX, "Changelog isn't right of GitHub")
+        XCTAssertLessThan(frames[2].midX, frames[3].midX, "Acknowledgments isn't right of Report a bug")
+        XCTAssertLessThan(frames[1].maxY, frames[2].minY, "the second row isn't below the first")
 
         // ⌘W closes it, and choosing About again brings back just one.
         about.typeKey("w", modifierFlags: .command)

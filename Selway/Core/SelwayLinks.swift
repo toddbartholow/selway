@@ -3,10 +3,6 @@ import Foundation
 /// Selway's pages on the web, in one place: the About window, the first-run sheet, the
 /// error report and the update checks all link to these.
 enum SelwayLinks {
-    /// The project's site (GitHub Pages on the public repository, which also serves the
-    /// update feed).
-    static let website = URL(string: "https://toddbartholow.github.io/selway/")!
-
     /// The public repository.
     static let repository = URL(string: "https://github.com/toddbartholow/selway")!
 
