@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Only the bundled scripts run: no inline script, eval, network, frames or
+     plugins. Ace injects its theme CSS as <style> elements, uses data: images, and
+     starts its syntax-check workers from blob: URLs that import the bundled worker-*.js. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; worker-src blob:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+  #editor { position: absolute; top: 0; right: 88px; bottom: 0; left: 0; font-size: 14px; }
+  body.mm-off #editor { right: 0; }
+
+  /* Minimap (Sublime-style code overview) */
+  #minimap {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 88px;
+    cursor: pointer; user-select: none;
+    border-left: 1px solid rgba(128,128,128,0.18);
+  }
+  body.mm-off #minimap { display: none; }
+  #minimap canvas { display: block; width: 100%; height: 100%; }
+
+  /* Command palette overlay */
+  #selway-palette {
+    display: none; position: absolute; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.35);
+    justify-content: center; align-items: flex-start;
+  }
+  .selway-palette-box {
+    margin-top: 56px; width: 64%; max-width: 640px;
+    background: #232530; color: #e8e8ec; border-radius: 10px;
+    box-shadow: 0 18px 60px rgba(0,0,0,.55); overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  }
+  .selway-palette-box input {
+    width: 100%; box-sizing: border-box; padding: 13px 16px; font-size: 14px;
+    border: none; outline: none; background: #2c2f3a; color: #fff;
+  }
+  .selway-palette-box ul { list-style: none; margin: 0; padding: 6px 0; max-height: 340px; overflow-y: auto; }
+  .selway-palette-box li { padding: 8px 16px; font-size: 13px; cursor: pointer; text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .selway-palette-box li.sel { background: #2f6bff; color: #fff; }
+</style>
+<script src="ace.js"></script>
+<script src="ext-language_tools.js"></script>
+<script src="ext-searchbox.js"></script>
+<script src="ext-modelist.js"></script>
+<script src="ext-settings_menu.js"></script>
+<script src="keybinding-sublime.js"></script>
+</head>
+<body>
+<div id="editor"></div>
+<div id="minimap"><canvas id="mm"></canvas></div>
+<div id="selway-palette"><div class="selway-palette-box">
+  <input id="selway-palette-input" type="text" placeholder="Type a command…">
+  <ul id="selway-palette-list"></ul>
+</div></div>
+<script src="selway-editor.js"></script>
+</body>
+</html>

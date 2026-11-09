@@ -1,0 +1,145 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "The app's name, which stays Selway in every language.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selway"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "NSAppleEventsUsageDescription" : {
+      "comment" : "Privacy - AppleEvents Sending Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway bittet den Finder, Objekte anzuzeigen und „Informationen“ zu öffnen, und das Terminal, Ordner für Claude Code und Codex zu öffnen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selway asks Finder to show items and open Get Info, and Terminal to open folders for Claude Code and Codex."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway pide al Finder que muestre ítems y abra Obtener información, y a Terminal que abra carpetas para Claude Code y Codex."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway demande au Finder d’afficher des éléments et d’ouvrir la fenêtre Lire les informations, et à Terminal d’ouvrir des dossiers pour Claude Code et Codex."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway chiede al Finder di mostrare gli elementi e aprire Ottieni informazioni, e a Terminale di aprire le cartelle per Claude Code e Codex."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selwayは、項目を表示して“情報を見る”を開くようFinderに、Claude CodeやCodexのためにフォルダを開くよう“ターミナル”に依頼します。"
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Todd Bartholow. MIT-Lizenz."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "© 2026 Todd Bartholow. MIT License."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Todd Bartholow. Licencia MIT."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Todd Bartholow. Licence MIT."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Todd Bartholow. Licenza MIT."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Todd Bartholow. MIT ライセンス。"
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription" : {
+      "comment" : "Privacy - Local Network Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway sucht in deinem Netzwerk nach Dateiservern, um sie in der Seitenleiste unter „Netzwerk“ aufzulisten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Selway looks for file servers on your network to list under Network in the sidebar."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway busca servidores de archivos en tu red para mostrarlos en Red, en la barra lateral."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway recherche les serveurs de fichiers de votre réseau pour les afficher sous Réseau dans la barre latérale."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selway cerca i file server nella tua rete per elencarli sotto Rete nella barra laterale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selwayは、サイドバーの“ネットワーク”に表示するために、ネットワーク上のファイルサーバを探します。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

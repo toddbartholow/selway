@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selway — the Mac file manager Finder should have shipped</title>
+  <meta name="description" content="A fast, native macOS file manager with a built-in code editor, Markdown reader/editor, Finder-compatible color tags, Spotlight search, archive tools, and one-click open in Terminal / VS Code / Cursor. Universal, ~6.8 MB, free & open source." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Selway — a Mac Finder that does more" />
+  <meta property="og:description" content="Built-in code editor, Markdown reader/editor, real color tags, Spotlight search, archives, and one-click IDE launch. Universal · free · open source." />
+  <meta property="og:image" content="https://toddbartholow.github.io/selway/assets/icon.png" />
+  <meta property="og:url" content="https://toddbartholow.github.io/selway/" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.9 6.6 20l1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+    <symbol id="i-columns" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.2"/><rect x="14" y="4" width="6" height="6" rx="1.2"/><rect x="4" y="14" width="6" height="6" rx="1.2"/><rect x="14" y="14" width="6" height="6" rx="1.2"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13.5h7M8.5 16.5h4"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-6.2-6.2A2 2 0 0 1 3.8 13V5a2 2 0 0 1 2-2h8a2 2 0 0 1 1.4.6l5.4 5.4a2 2 0 0 1 0 2.8z"/><circle cx="8" cy="8" r="1.3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14l-4-4 4-4"/><path d="M5 10h9a6 6 0 0 1 0 12h-3"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M10 13a4 4 0 0 0 5.7.4l3-3a4 4 0 0 0-5.7-5.7l-1.5 1.5"/><path d="M14 11a4 4 0 0 0-5.7-.4l-3 3a4 4 0 0 0 5.7 5.7l1.5-1.5"/></symbol>
+    <symbol id="i-archive" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 12h4"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 0 1-4 0v-.1A1.7 1.7 0 0 0 7 19.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 0 1 0-4h.1A1.7 1.7 0 0 0 4.8 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H10a1.7 1.7 0 0 0 1-1.6V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V10a1.7 1.7 0 0 0 1.6 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M14 4a2 2 0 0 0-4 0c0 .9-.7 1.3-1.4 1H6a1 1 0 0 0-1 1v2.6c.3.7-.1 1.4-1 1.4a2 2 0 0 0 0 4c.9 0 1.3.7 1 1.4V18a1 1 0 0 0 1 1h2.6c.7-.3 1.4.1 1.4 1a2 2 0 0 0 4 0c0-.9.7-1.3 1.4-1H18a1 1 0 0 0 1-1v-2.6c-.3-.7.1-1.4 1-1.4a2 2 0 0 0 0-4c-.9 0-1.3-.7-1-1.4V6a1 1 0 0 0-1-1h-2.6c-.7.3-1.4-.1-1.4-1z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-feather" viewBox="0 0 24 24"><path d="M20 5a6 6 0 0 0-8.5 0L4 12.5V20h7.5L19 12.5A6 6 0 0 0 20 5z"/><path d="M16 8L5 19M14 11H9M13 16H9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-5.3 7-11a7 7 0 0 0-14 0c0 5.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></symbol>
+  </svg>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="nav__brand" href="#top"><img src="assets/icon.png" alt="" /> Selway</a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#why">Why switch</a>
+        <a href="#features">Features</a>
+        <a href="#security">Security</a>
+        <a href="#install">Install</a>
+      </nav>
+      <a class="btn btn--primary nav__cta" href="https://github.com/toddbartholow/selway/releases/latest"><svg class="icon"><use href="#i-download"/></svg> Download</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="section hero">
+      <div class="wrap hero__grid">
+        <div>
+          <p class="eyebrow">macOS file manager · runs fully on your Mac</p>
+          <h1>Finder, <em>but it actually does more.</em></h1>
+          <p class="hero__lead">
+            A fast, native file browser with a built-in code editor, a Markdown
+            reader, real Finder color tags, Spotlight search, and one-click IDE
+            launch — the whole stack you usually open four apps for, in one window.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="https://github.com/toddbartholow/selway/releases/latest">
+              <svg class="icon"><use href="#i-download"/></svg> Download for macOS
+            </a>
+            <a class="btn btn--ghost btn--scroll" href="#features">
+              See the features <svg class="icon"><use href="#i-arrow-down"/></svg>
+            </a>
+          </div>
+          <p class="hero__facts">
+            <span class="dot" aria-hidden="true"></span>
+            <b>Universal</b> · Apple Silicon + Intel · <b>macOS 14+</b> · <b>6.8 MB</b> .dmg · <b>Free</b> &amp; open source · MIT
+          </p>
+        </div>
+        <img class="hero__icon" src="assets/icon.png" width="512" height="512" alt="" />
+      </div>
+    </section>
+
+    <!-- WHY / REPLACES THE STACK -->
+    <section class="section" id="why">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Why switch</p>
+          <h2>One app instead of four</h2>
+          <p>The reasons people move from Finder — none of these ship in macOS Finder.</p>
+        </div>
+        <div class="stack__grid">
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No Sublime / VS Code</s></div>
+            <b><svg class="icon"><use href="#i-code"/></svg> Edit code in place</b>
+            <span>Double-click a file → tabs, syntax highlighting, command palette, minimap.</span>
+          </div>
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No Obsidian</s></div>
+            <b><svg class="icon"><use href="#i-doc"/></svg> Read &amp; write Markdown</b>
+            <span>Rendered preview for READMEs, docs and notes, plus an edit mode with ⌘S.</span>
+          </div>
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No Terminal hunt</s></div>
+            <b><svg class="icon"><use href="#i-terminal"/></svg> Open in your IDE</b>
+            <span>Terminal, VS Code, Cursor, Claude Code, Codex — one click, only what you have.</span>
+          </div>
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No right-click digging</s></div>
+            <b><svg class="icon"><use href="#i-copy"/></svg> Copy a folder path</b>
+            <span>One button, instant toast — not three menus deep.</span>
+          </div>
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No memorized commands</s></div>
+            <b><svg class="icon"><use href="#i-undo"/></svg> Cut / copy / paste / move</b>
+            <span>Every file op from buttons &amp; menus, with full undo / redo.</span>
+          </div>
+          <div class="replace reveal">
+            <div class="replace__top"><svg class="icon"><use href="#i-x"/></svg> <s>No extra unzip app</s></div>
+            <b><svg class="icon"><use href="#i-archive"/></svg> Compress &amp; extract</b>
+            <span>zip in, and zip / tar / gz / bz2 / xz out — built in.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDITOR DEEP DIVE -->
+    <section class="section" id="editor">
+      <div class="wrap dive">
+        <div>
+          <p class="eyebrow">Built-in editor</p>
+          <h3>A code editor that doesn't feel bolted on</h3>
+          <p style="color:var(--color-ink-2)">
+            Open any text or code file straight from the browser into a real,
+            standalone, resizable window — it never blocks your file navigation.
+          </p>
+          <ul>
+            <li><svg class="icon"><use href="#i-check"/></svg> Syntax highlighting for dozens of languages</li>
+            <li><svg class="icon"><use href="#i-check"/></svg> Multiple files as <strong>tabs</strong></li>
+            <li><svg class="icon"><use href="#i-check"/></svg> Fuzzy <strong>command palette (⌘⇧P)</strong> &amp; Sublime keybindings</li>
+            <li><svg class="icon"><use href="#i-check"/></svg> Theme-aware <strong>Sublime-style minimap</strong> — click/drag to scroll</li>
+            <li><svg class="icon"><use href="#i-check"/></svg> Drag, minimize, resize like any native macOS window</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKDOWN DEEP DIVE -->
+    <section class="section" id="markdown">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Markdown, built in</p>
+          <h2>Read it clean. Edit it fast.</h2>
+          <p>READMEs, docs and notes all come as Markdown. Read them rendered, or flip to edit and save with ⌘S, without ever leaving your files.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE BENTO -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Everything in the box</p>
+          <h2>All the Finder basics — plus the parts it's missing</h2>
+        </div>
+        <div class="bento">
+          <article class="card span-3 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-columns"/></svg></div>
+            <h3>Three real views</h3>
+            <p>Column (miller) with a live preview pane, sortable List, and a resizable Icon grid — all sharing the same sort &amp; group options.</p>
+          </article>
+          <article class="card span-3 reveal">
+            <div class="badge badge--coral"><svg class="icon"><use href="#i-tag"/></svg></div>
+            <h3>Finder-compatible color tags</h3>
+            <p>The 7 standard colors, multiple per file, written in macOS's real format — they show up in Finder too.</p>
+            <span class="new">exclusive</span>
+          </article>
+          <article class="card span-3 reveal">
+            <div class="badge badge--coral"><svg class="icon"><use href="#i-share"/></svg></div>
+            <h3>Drag files anywhere</h3>
+            <p>Drag a file or multi-selection out of Selway onto the Desktop, another folder, an upload dialog, a browser, Slack, Mail — real file drag just like Finder.</p>
+          </article>
+          <article class="card span-3 reveal">
+            <div class="badge badge--coral"><svg class="icon"><use href="#i-eye"/></svg></div>
+            <h3>Group &amp; sort like Finder + Explorer</h3>
+            <p>Group by Date (Today → Previous 90 Days → Earlier), Kind, Extension, Size or Name. Folders-first / files-first / mixed — works in every view.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-search"/></svg></div>
+            <h3>Spotlight search</h3>
+            <p>This folder, recursive, or your entire Mac. Extension search (<code>.pdf</code>) included.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-eye"/></svg></div>
+            <h3>Preview that works</h3>
+            <p>Quick Look + a preview pane for images, PDFs, code, video, audio, docs.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-undo"/></svg></div>
+            <h3>Undo / redo everything</h3>
+            <p>Every move, rename, paste and trash is reversible — partial-failure-safe.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge badge--coral"><svg class="icon"><use href="#i-terminal"/></svg></div>
+            <h3>One-click IDE launch</h3>
+            <p>Open the folder in Terminal, VS Code, Cursor, Claude Code or Codex — only what you have shows.</p>
+            <span class="new">exclusive</span>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-copy"/></svg></div>
+            <h3>Copy path in one click</h3>
+            <p>A dedicated copy-path button with a confirmation toast — no menu digging.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-archive"/></svg></div>
+            <h3>Archive tools</h3>
+            <p>Compress to zip; extract zip / tar / gz / tgz / bz2 / xz with built-in tools.</p>
+          </article>
+          <article class="card span-2 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-share"/></svg></div>
+            <h3>Share, AirDrop &amp; Get Info</h3>
+            <p>Share/AirDrop, Get Info, Show in Finder, make alias — the native actions you rely on.</p>
+          </article>
+          <article class="card span-3 reveal">
+            <div class="badge badge--coral"><svg class="icon"><use href="#i-puzzle"/></svg></div>
+            <h3>Finder right-click menu</h3>
+            <p>A bundled extension adds New Folder Here, Copy Path, Open in Terminal &amp; Open in Selway right into Finder.</p>
+            <span class="new">exclusive</span>
+          </article>
+          <article class="card span-3 reveal">
+            <div class="badge"><svg class="icon"><use href="#i-gear"/></svg></div>
+            <h3>Pinned &amp; recent folders</h3>
+            <p>Keep the folders you use in the sidebar and get back to recent ones. Path bar, disk-space status, launch at login.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECURITY + RAM -->
+    <section class="section" id="security">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Trust</p>
+          <h2>Local by design, light on your Mac</h2>
+          <p>It handles your files, so it's built — and reviewed — to deserve that.</p>
+        </div>
+        <div class="trust">
+          <div class="panel-card reveal">
+            <h3><span class="badge badge--green"><svg class="icon"><use href="#i-shield"/></svg></span> Security &amp; privacy</h3>
+            <ul>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Local by design.</strong> No telemetry, no accounts — nothing about your files leaves your Mac. Network requests are only the optional update check on GitHub, which you can turn off in Settings, and remote images in a Markdown document, which stay blocked until you click Load Remote Images.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Security-reviewed.</strong> File names handed to AppleScript are passed as strictly escaped literals, across the app and the Finder extension.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Bug-hardened.</strong> Unsaved Markdown edits are kept on close, and partial paste/move failures stay undo-safe.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Sandboxed extension.</strong> The Finder extension is sandboxed; the app uses only the file access you grant via standard macOS prompts.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Open source.</strong> Read every line — MIT licensed.</li>
+            </ul>
+          </div>
+          <div class="panel-card reveal">
+            <h3><span class="badge"><svg class="icon"><use href="#i-feather"/></svg></span> A RAM saver, not a hog</h3>
+            <ul>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>≈ 55–60 MB idle</strong> while browsing — measured, not guessed.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Cached icons.</strong> File-type icons are reused, not duplicated, so big folders stay lean.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Freed on close.</strong> The editor &amp; Markdown preview use WebKit only while open; that memory is released the moment you close the window.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Event-driven.</strong> No background polling, no CPU burn while it sits idle.</li>
+              <li><svg class="icon"><use href="#i-check"/></svg> <strong>Self-contained.</strong> No Node, no Homebrew, no runtimes to install.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUIREMENTS + INSTALL -->
+    <section class="section" id="install">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Get it running</p>
+          <h2>Requirements &amp; install</h2>
+        </div>
+        <div class="reqgrid">
+          <table class="reqtable">
+            <tbody>
+              <tr><th>macOS</th><td>14.0 Sonoma or later</td></tr>
+              <tr><th>Chip</th><td>Apple Silicon or Intel (universal)</td></tr>
+              <tr><th>Download</th><td>≈ 6.8 MB · .dmg</td></tr>
+              <tr><th>Extras</th><td>None — fully self-contained</td></tr>
+              <tr><th>Price</th><td>Free &amp; open source (MIT)</td></tr>
+            </tbody>
+          </table>
+          <div>
+            <div class="terminal" aria-label="Install steps">
+<span class="c"># 1. Download &amp; open the latest Selway-&lt;version&gt;.dmg, drag it into Applications</span>
+<span class="c"># 2. First launch: notarized builds just open. Ad-hoc builds are blocked once —</span>
+<span class="c">#    macOS 15+: System Settings → Privacy &amp; Security → "Open Anyway"</span>
+<span class="c">#    macOS 14:  Control-click Selway in Applications → Open → Open</span>
+<span class="c">#    (don't strip the quarantine flag in Terminal; approve it once instead)</span>
+<span class="c"># 3. (optional) enable the Finder right-click menu under</span>
+<span class="c">#    Login Items &amp; Extensions → Extensions → Selway</span>
+            </div>
+            <p style="color:var(--color-muted);font-size:var(--text-sm);margin-top:var(--space-12)">
+              On first browse, macOS shows standard “allow access” prompts — normal for any file manager. Just click <strong>Allow</strong>.
+            </p>
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="https://github.com/toddbartholow/selway/releases/latest"><svg class="icon"><use href="#i-download"/></svg> Download the latest Selway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT / STAR -->
+    <section class="section" id="support">
+      <div class="wrap">
+        <div class="section__head">
+          <p class="eyebrow">Support the project</p>
+          <h2>If it saves you a trip to Finder, give it a star</h2>
+          <p>Selway is free and open source. A star helps others find it.</p>
+        </div>
+        <div class="support__grid">
+          <a class="support" href="https://github.com/toddbartholow/selway">
+            <svg class="icon"><use href="#i-star"/></svg>
+            <b>Star on GitHub</b>
+            <span>Helps others discover it.</span>
+          </a>
+          <a class="support" href="https://github.com/toddbartholow/selway/issues">
+            <svg class="icon"><use href="#i-github"/></svg>
+            <b>Report an issue</b>
+            <span>Bugs and feature requests.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section final">
+      <div class="wrap">
+        <h2>Give Finder the upgrade it never got.</h2>
+        <p>Install once. Browse, tag, search, edit, and launch your IDE — all in one window.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="https://github.com/toddbartholow/selway/releases/latest"><svg class="icon"><use href="#i-download"/></svg> Download for macOS <small>· .dmg · 6.8 MB</small></a>
+          <a class="btn btn--ghost" href="https://github.com/toddbartholow/selway"><svg class="icon"><use href="#i-github"/></svg> View source on GitHub</a>
+        </div>
+        <p style="margin-top:var(--space-16)">Universal · macOS 14+ · ad-hoc signed · 6.8 MB</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__row">
+        <span>Selway · runs fully on your Mac · MIT licensed</span>
+        <nav class="foot__links" aria-label="Footer">
+          <a href="#features">Features</a>
+          <a href="#security">Security</a>
+          <a href="https://github.com/toddbartholow/selway">GitHub</a>
+        </nav>
+      </div>
+      <p class="foot__fine">
+        Selway is an independent project and is not affiliated with Apple.
+        Finder is a trademark of Apple Inc.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    (function () {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var els = document.querySelectorAll('.reveal');
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('in'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      }
+    })();
+  </script>
+</body>
+</html>

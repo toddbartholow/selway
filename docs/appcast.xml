@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Selway</title>
+        <item>
+            <title>0.5.21</title>
+            <pubDate>Sun, 08 Nov 2026 15:28:20 -0800</pubDate>
+            <link>https://github.com/toddbartholow/selway/releases</link>
+            <sparkle:version>22</sparkle:version>
+            <sparkle:shortVersionString>0.5.21</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.21/Selway-0.5.21.dmg" length="8094659" type="application/octet-stream" sparkle:edSignature="PZGU1FE1ZTfWltb+IJfpnkrhBmmml4W2vkt4vC8G0MZpI2jUI2HgyQeti9OL/o9sNe4Xv3tZOkfRbelwuX7qCg=="></enclosure>
+        </item>
+    </channel>
+</rss><!-- sparkle-signatures:
+edSignature: NFq7bDwc3i/hYpAlp4xIyJrxsDu1EB3niJ4r2+ke9RwBGUyAuJDxj0yU+vIDZOojMXIrZ+r3hIZHNEepS88sBg==
+length: 1136
+-->

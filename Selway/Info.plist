@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<!-- Updates via Sparkle (docs/RELEASING.md). SUFeedURL is the signed appcast (docs/appcast.xml)
+	     on the public repository's GitHub Pages site; SUPublicEDKey is the public half of the Ed25519
+	     key kept by scripts/update-key.sh. SURequireSignedFeed: the appcast and release notes must be
+	     signed with that key (release.sh signs them). SUVerifyUpdateBeforeExtraction: a download is
+	     checked against its EdDSA signature before it is unpacked (Sparkle requires this with
+	     SURequireSignedFeed). SUSignedFeedFailureExpirationInterval 0: no fallback that shows
+	     updates after the feed signature has failed for a while (keep the key's backup: there is
+	     no recovery without it). SUEnableAutomaticChecks: on by default without Sparkle's
+	     second-launch question; Settings → General turns it off. -->
+	<key>SUFeedURL</key>
+	<string>https://toddbartholow.github.io/selway/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>xB9jLvFk3lAgu9dhN4ClsKAp2K8XjJ1IL/gbPUzC0hk=</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SURequireSignedFeed</key>
+	<true/>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
+	<key>SUSignedFeedFailureExpirationInterval</key>
+	<integer>0</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Todd Bartholow. MIT License.</string>
+	<!-- The sidebar's Network row looks for these file servers (NetworkBrowser.swift), only
+	     once the user opens it: that's when macOS asks about Local Network access. -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Selway looks for file servers on your network to list under Network in the sidebar.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_smb._tcp</string>
+	</array>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Selway asks Finder to show items and open Get Info, and Terminal to open folders for Claude Code and Codex.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Selway URL</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>selway</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Folder</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.folder</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

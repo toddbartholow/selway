@@ -1,0 +1,945 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5A5A5A5A5A5A5A5A5A5A0003 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 5A5A5A5A5A5A5A5A5A5A0002 /* Sparkle */; };
+		F2F2F2F2F2F2F2F2F2F20007 /* FileIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10007 /* FileIconView.swift */; };
+		F2F2F2F2F2F2F2F2F2F20006 /* FileContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10006 /* FileContextMenu.swift */; };
+		F2F2F2F2F2F2F2F2F2F20005 /* DirectoryWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10005 /* DirectoryWatcher.swift */; };
+		F2F2F2F2F2F2F2F2F2F20004 /* BrowserWindowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10004 /* BrowserWindowRouter.swift */; };
+		F2F2F2F2F2F2F2F2F2F20003 /* BrowserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10003 /* BrowserCommands.swift */; };
+		F2F2F2F2F2F2F2F2F2F20002 /* FileOperationProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10002 /* FileOperationProgressView.swift */; };
+		F2F2F2F2F2F2F2F2F2F20001 /* EditorSavePrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F1F1F1F1F1F1F1F1F10001 /* EditorSavePrompts.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0020 /* SelwayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0010 /* SelwayApp.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0021 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0011 /* ContentView.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0022 /* PathBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0012 /* PathBarView.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0023 /* SearchScopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0013 /* SearchScopeView.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0024 /* QuickActionsToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0014 /* QuickActionsToolbar.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0025 /* FolderCreationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0015 /* FolderCreationService.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0026 /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0016 /* SearchEngine.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0018 /* Assets.xcassets */; };
+		AAAAAAAAAAAAAAAAAAAA0028 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA001A /* SidebarView.swift */; };
+		C0EC7C0EC7C0EC7C0EC70002 /* ConnectToServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC7C0EC7C0EC7C0EC70001 /* ConnectToServer.swift */; };
+		B0B0B0B0B0B0B0B0B0B00002 /* NetworkBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */; };
+		BA4E9A4EBA4E9A4EBA4E0002 /* BrowserPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */; };
+		D0A1D0A1D0A1D0A1D0A10002 /* DualPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */; };
+		D15C0E4ED15C0E4ED15C0002 /* DiskOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0050 /* FinderSyncExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0040 /* FinderSyncExtension.swift */; };
+		E10E10E10E10E10E10E10011 /* ShellCopyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E10E10E10E10E10E10001 /* ShellCopyPath.swift */; };
+		E10E10E10E10E10E10E10012 /* FileOpsURLScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E10E10E10E10E10E10002 /* FileOpsURLScheme.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0062 /* SelwayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0042 /* SelwayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AAAAAAAAAAAAAAAAAAAA0071 /* FinderSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0070 /* FinderSync.framework */; };
+		BBBBBBBBBBBBBBBBBBBB0002 /* FileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBB0001 /* FileItem.swift */; };
+		BBBBBBBBBBBBBBBBBBBB0004 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBB0003 /* ListView.swift */; };
+		BBBBBBBBBBBBBBBBBBBB0006 /* IconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBB0005 /* IconsView.swift */; };
+		1C0A1C0A1C0A1C0A1C0A0002 /* IconMouseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A1C0A1C0A1C0A1C0A0001 /* IconMouseView.swift */; };
+		1C0A1C0A1C0A1C0A1C0A0004 /* IconRubberBand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A1C0A1C0A1C0A1C0A0003 /* IconRubberBand.swift */; };
+		BBBBBBBBBBBBBBBBBBBB0008 /* ColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBB0007 /* ColumnsView.swift */; };
+		BBBBBBBBBBBBBBBBBBBB000A /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBBBBBBBBBBBBBBBBBB0009 /* StatusBarView.swift */; };
+		EEEEEEEEEEEEEEEEEEEE0002 /* FileDragSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEEEEEEEEEEEEEEEEEE0001 /* FileDragSupport.swift */; };
+		D50BD50BD50BD50BD50B0002 /* FileDropSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50BD50BD50BD50BD50B0001 /* FileDropSupport.swift */; };
+		CCCCCCCCCCCCCCCCCCCC0002 /* MarkdownReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCCCCCCCCCCCCCCCCCC0001 /* MarkdownReaderView.swift */; };
+		CCCCCCCCCCCCCCCCCCCC0004 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCCCCCCCCCCCCCCCCCC0003 /* SettingsView.swift */; };
+		5E7715E7715E7715E7710002 /* SettingsTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7715E7715E7715E7710001 /* SettingsTabs.swift */; };
+		5E7715E7715E7715E7710004 /* SettingsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7715E7715E7715E7710003 /* SettingsSupport.swift */; };
+		5E7715E7715E7715E7710006 /* DeleteCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7715E7715E7715E7710005 /* DeleteCommands.swift */; };
+		CCCCCCCCCCCCCCCCCCCC0006 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCCCCCCCCCCCCCCCCCC0005 /* CodeEditorView.swift */; };
+		FFFFFFFFFFFFFFFF0002 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF0001 /* UserPreferences.swift */; };
+		FFFFFFFFFFFFFFFF0004 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF0003 /* UpdateManager.swift */; };
+		FFFFFFFFFFFFFFFF0006 /* ErrorReportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF0005 /* ErrorReportSheet.swift */; };
+		FFFFFFFFFFFFFFFF0008 /* MarkdownFormatActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF0007 /* MarkdownFormatActions.swift */; };
+		FFFFFFFFFFFFFFFF000A /* MarkdownEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF0009 /* MarkdownEditorController.swift */; };
+		FFFFFFFFFFFFFFFF000C /* FirstRunSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF000B /* FirstRunSheet.swift */; };
+		AB0A7AB0A7AB0A7AB0A70002 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0A7AB0A7AB0A7AB0A70001 /* AboutWindow.swift */; };
+		FFFFFFFFFFFFFFFF000E /* TextScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFFFFFFFFFFFFF000D /* TextScale.swift */; };
+		DDDDDDDDDDDDDDDDDDDD0002 /* AceEditor in Resources */ = {isa = PBXBuildFile; fileRef = DDDDDDDDDDDDDDDDDDDD0001 /* AceEditor */; };
+		A3C9E03A7B4E4C3391C5A001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A004 /* Localizable.xcstrings */; };
+		A3C9E03A7B4E4C3391C5A007 /* KeyNames.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A009 /* KeyNames.xcstrings */; };
+		A3C9E03A7B4E4C3391C5A008 /* Grouping.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A00A /* Grouping.xcstrings */; };
+		A3C9E03A7B4E4C3391C5A002 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A005 /* InfoPlist.xcstrings */; };
+		A3C9E03A7B4E4C3391C5A003 /* Extension Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A006 /* Localizable.xcstrings */; };
+		A3C9E03A7B4E4C3391C5A00B /* Extension InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A3C9E03A7B4E4C3391C5A00C /* InfoPlist.xcstrings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AAAAAAAAAAAAAAAAAAAA0060 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAAAAAAAAAAAAAAAAAAA0001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAAAAAAAAAAAAAAAAAAA0030;
+			remoteInfo = SelwayExtension;
+		};
+		7E577E577E577E577E570007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAAAAAAAAAAAAAAAAAAA0001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAAAAAAAAAAAAAAAAAAA0002;
+			remoteInfo = Selway;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA0037 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0062 /* SelwayExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F1F1F1F1F1F1F1F1F1F10007 /* FileIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIconView.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10006 /* FileContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileContextMenu.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10005 /* DirectoryWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryWatcher.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10004 /* BrowserWindowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowRouter.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10003 /* BrowserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserCommands.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10002 /* FileOperationProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperationProgressView.swift; sourceTree = "<group>"; };
+		F1F1F1F1F1F1F1F1F1F10001 /* EditorSavePrompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSavePrompts.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA000F /* Selway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selway.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAAAAAAAAAAAAAAAAAAA0010 /* SelwayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelwayApp.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0011 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0012 /* PathBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathBarView.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0013 /* SearchScopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScopeView.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0014 /* QuickActionsToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsToolbar.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0015 /* FolderCreationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCreationService.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0016 /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA001A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		C0EC7C0EC7C0EC7C0EC70001 /* ConnectToServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToServer.swift; sourceTree = "<group>"; };
+		B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBrowser.swift; sourceTree = "<group>"; };
+		BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserPane.swift; sourceTree = "<group>"; };
+		D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualPane.swift; sourceTree = "<group>"; };
+		D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOverviewView.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA001B /* Selway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Selway.entitlements; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0040 /* FinderSyncExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSyncExtension.swift; sourceTree = "<group>"; };
+		E10E10E10E10E10E10E10001 /* ShellCopyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShellCopyPath.swift; path = ../Selway/Core/ShellCopyPath.swift; sourceTree = "<group>"; };
+		E10E10E10E10E10E10E10002 /* FileOpsURLScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileOpsURLScheme.swift; path = ../Selway/Core/FileOpsURLScheme.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0041 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA001C /* SelwayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SelwayExtension.entitlements; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0042 /* SelwayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SelwayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAAAAAAAAAAAAAAAAAAA0070 /* FinderSync.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FinderSync.framework; path = System/Library/Frameworks/FinderSync.framework; sourceTree = SDKROOT; };
+		A3C9E03A7B4E4C3391C5A004 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		A3C9E03A7B4E4C3391C5A009 /* KeyNames.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = KeyNames.xcstrings; sourceTree = "<group>"; };
+		A3C9E03A7B4E4C3391C5A00A /* Grouping.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Grouping.xcstrings; sourceTree = "<group>"; };
+		A3C9E03A7B4E4C3391C5A005 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		A3C9E03A7B4E4C3391C5A006 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		A3C9E03A7B4E4C3391C5A00C /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		BBBBBBBBBBBBBBBBBBBB0001 /* FileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItem.swift; sourceTree = "<group>"; };
+		BBBBBBBBBBBBBBBBBBBB0003 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		BBBBBBBBBBBBBBBBBBBB0005 /* IconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsView.swift; sourceTree = "<group>"; };
+		1C0A1C0A1C0A1C0A1C0A0001 /* IconMouseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconMouseView.swift; sourceTree = "<group>"; };
+		1C0A1C0A1C0A1C0A1C0A0003 /* IconRubberBand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconRubberBand.swift; sourceTree = "<group>"; };
+		BBBBBBBBBBBBBBBBBBBB0007 /* ColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnsView.swift; sourceTree = "<group>"; };
+		BBBBBBBBBBBBBBBBBBBB0009 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		EEEEEEEEEEEEEEEEEEEE0001 /* FileDragSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDragSupport.swift; sourceTree = "<group>"; };
+		D50BD50BD50BD50BD50B0001 /* FileDropSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDropSupport.swift; sourceTree = "<group>"; };
+		CCCCCCCCCCCCCCCCCCCC0001 /* MarkdownReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownReaderView.swift; sourceTree = "<group>"; };
+		CCCCCCCCCCCCCCCCCCCC0003 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5E7715E7715E7715E7710001 /* SettingsTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabs.swift; sourceTree = "<group>"; };
+		5E7715E7715E7715E7710003 /* SettingsSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupport.swift; sourceTree = "<group>"; };
+		5E7715E7715E7715E7710005 /* DeleteCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCommands.swift; sourceTree = "<group>"; };
+		CCCCCCCCCCCCCCCCCCCC0005 /* CodeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF0001 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF0003 /* UpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF0005 /* ErrorReportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReportSheet.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF0007 /* MarkdownFormatActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownFormatActions.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF0009 /* MarkdownEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorController.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF000B /* FirstRunSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunSheet.swift; sourceTree = "<group>"; };
+		AB0A7AB0A7AB0A7AB0A70001 /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
+		FFFFFFFFFFFFFFFF000D /* TextScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextScale.swift; sourceTree = "<group>"; };
+		DDDDDDDDDDDDDDDDDDDD0001 /* AceEditor */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AceEditor; sourceTree = "<group>"; };
+		7E577E577E577E577E570001 /* SelwayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SelwayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C0C0C0C0C0C0C0C0C0C00001 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; path = Core; sourceTree = "<group>"; };
+		7E577E577E577E577E570002 /* SelwayUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; path = SelwayUITests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA000B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A5A5A5A5A5A5A5A5A5A0003 /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0071 /* FinderSync.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E577E577E577E577E570005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AAAAAAAAAAAAAAAAAAAA000C /* Selway */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA000E /* Selway */,
+				AAAAAAAAAAAAAAAAAAAA006F /* SelwayExtension */,
+				7E577E577E577E577E570002 /* SelwayUITests */,
+				AAAAAAAAAAAAAAAAAAAA0072 /* Frameworks */,
+				AAAAAAAAAAAAAAAAAAAA000D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA000D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA000F /* Selway.app */,
+				AAAAAAAAAAAAAAAAAAAA0042 /* SelwayExtension.appex */,
+				7E577E577E577E577E570001 /* SelwayUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA000E /* Selway */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0010 /* SelwayApp.swift */,
+				AAAAAAAAAAAAAAAAAAAA0011 /* ContentView.swift */,
+				AAAAAAAAAAAAAAAAAAAA0012 /* PathBarView.swift */,
+				AAAAAAAAAAAAAAAAAAAA0013 /* SearchScopeView.swift */,
+				AAAAAAAAAAAAAAAAAAAA0014 /* QuickActionsToolbar.swift */,
+				AAAAAAAAAAAAAAAAAAAA0015 /* FolderCreationService.swift */,
+				AAAAAAAAAAAAAAAAAAAA0016 /* SearchEngine.swift */,
+				AAAAAAAAAAAAAAAAAAAA001A /* SidebarView.swift */,
+				C0EC7C0EC7C0EC7C0EC70001 /* ConnectToServer.swift */,
+				B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */,
+				BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */,
+				D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */,
+				D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */,
+				AAAAAAAAAAAAAAAAAAAA0017 /* Info.plist */,
+				A3C9E03A7B4E4C3391C5A004 /* Localizable.xcstrings */,
+				A3C9E03A7B4E4C3391C5A009 /* KeyNames.xcstrings */,
+				A3C9E03A7B4E4C3391C5A00A /* Grouping.xcstrings */,
+				A3C9E03A7B4E4C3391C5A005 /* InfoPlist.xcstrings */,
+				AAAAAAAAAAAAAAAAAAAA0018 /* Assets.xcassets */,
+				AAAAAAAAAAAAAAAAAAAA001B /* Selway.entitlements */,
+				BBBBBBBBBBBBBBBBBBBB0001 /* FileItem.swift */,
+				BBBBBBBBBBBBBBBBBBBB0003 /* ListView.swift */,
+				BBBBBBBBBBBBBBBBBBBB0005 /* IconsView.swift */,
+				1C0A1C0A1C0A1C0A1C0A0001 /* IconMouseView.swift */,
+				1C0A1C0A1C0A1C0A1C0A0003 /* IconRubberBand.swift */,
+				BBBBBBBBBBBBBBBBBBBB0007 /* ColumnsView.swift */,
+				BBBBBBBBBBBBBBBBBBBB0009 /* StatusBarView.swift */,
+				EEEEEEEEEEEEEEEEEEEE0001 /* FileDragSupport.swift */,
+				D50BD50BD50BD50BD50B0001 /* FileDropSupport.swift */,
+				CCCCCCCCCCCCCCCCCCCC0001 /* MarkdownReaderView.swift */,
+				CCCCCCCCCCCCCCCCCCCC0003 /* SettingsView.swift */,
+				5E7715E7715E7715E7710001 /* SettingsTabs.swift */,
+				5E7715E7715E7715E7710003 /* SettingsSupport.swift */,
+				5E7715E7715E7715E7710005 /* DeleteCommands.swift */,
+				CCCCCCCCCCCCCCCCCCCC0005 /* CodeEditorView.swift */,
+				FFFFFFFFFFFFFFFF0001 /* UserPreferences.swift */,
+				FFFFFFFFFFFFFFFF0003 /* UpdateManager.swift */,
+				FFFFFFFFFFFFFFFF0005 /* ErrorReportSheet.swift */,
+				FFFFFFFFFFFFFFFF0007 /* MarkdownFormatActions.swift */,
+				FFFFFFFFFFFFFFFF0009 /* MarkdownEditorController.swift */,
+				FFFFFFFFFFFFFFFF000B /* FirstRunSheet.swift */,
+				AB0A7AB0A7AB0A7AB0A70001 /* AboutWindow.swift */,
+				FFFFFFFFFFFFFFFF000D /* TextScale.swift */,
+				DDDDDDDDDDDDDDDDDDDD0001 /* AceEditor */,
+				C0C0C0C0C0C0C0C0C0C00001 /* Core */,
+				F1F1F1F1F1F1F1F1F1F10001 /* EditorSavePrompts.swift */,
+				F1F1F1F1F1F1F1F1F1F10002 /* FileOperationProgressView.swift */,
+				F1F1F1F1F1F1F1F1F1F10003 /* BrowserCommands.swift */,
+				F1F1F1F1F1F1F1F1F1F10004 /* BrowserWindowRouter.swift */,
+				F1F1F1F1F1F1F1F1F1F10005 /* DirectoryWatcher.swift */,
+				F1F1F1F1F1F1F1F1F1F10006 /* FileContextMenu.swift */,
+				F1F1F1F1F1F1F1F1F1F10007 /* FileIconView.swift */,
+			);
+			path = Selway;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA006F /* SelwayExtension */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0040 /* FinderSyncExtension.swift */,
+				E10E10E10E10E10E10E10001 /* ShellCopyPath.swift */,
+				E10E10E10E10E10E10E10002 /* FileOpsURLScheme.swift */,
+				AAAAAAAAAAAAAAAAAAAA0041 /* Info.plist */,
+				A3C9E03A7B4E4C3391C5A006 /* Localizable.xcstrings */,
+				A3C9E03A7B4E4C3391C5A00C /* InfoPlist.xcstrings */,
+				AAAAAAAAAAAAAAAAAAAA001C /* SelwayExtension.entitlements */,
+			);
+			path = SelwayExtension;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0072 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0070 /* FinderSync.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AAAAAAAAAAAAAAAAAAAA0002 /* Selway */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0006 /* Build configuration list for PBXNativeTarget "Selway" */;
+			buildPhases = (
+				AAAAAAAAAAAAAAAAAAAA0009 /* Sources */,
+				AAAAAAAAAAAAAAAAAAAA000A /* Resources */,
+				AAAAAAAAAAAAAAAAAAAA000B /* Frameworks */,
+				AAAAAAAAAAAAAAAAAAAA0037 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAAAAAAAAAAAAAAAAAAA0061 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C0C0C0C0C0C0C0C0C0C00001 /* Core */,
+			);
+			name = Selway;
+			packageProductDependencies = (
+				5A5A5A5A5A5A5A5A5A5A0002 /* Sparkle */,
+			);
+			productName = Selway;
+			productReference = AAAAAAAAAAAAAAAAAAAA000F /* Selway.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AAAAAAAAAAAAAAAAAAAA0030 /* SelwayExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0031 /* Build configuration list for PBXNativeTarget "SelwayExtension" */;
+			buildPhases = (
+				AAAAAAAAAAAAAAAAAAAA0034 /* Sources */,
+				AAAAAAAAAAAAAAAAAAAA0035 /* Resources */,
+				AAAAAAAAAAAAAAAAAAAA0036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelwayExtension;
+			productName = SelwayExtension;
+			productReference = AAAAAAAAAAAAAAAAAAAA0042 /* SelwayExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		7E577E577E577E577E570003 /* SelwayUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E577E577E577E577E570009 /* Build configuration list for PBXNativeTarget "SelwayUITests" */;
+			buildPhases = (
+				7E577E577E577E577E570004 /* Sources */,
+				7E577E577E577E577E570005 /* Frameworks */,
+				7E577E577E577E577E570006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7E577E577E577E577E570008 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7E577E577E577E577E570002 /* SelwayUITests */,
+			);
+			name = SelwayUITests;
+			productName = SelwayUITests;
+			productReference = 7E577E577E577E577E570001 /* SelwayUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAAAAAAAAAAAAAAAAAAA0001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					AAAAAAAAAAAAAAAAAAAA0002 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					AAAAAAAAAAAAAAAAAAAA0030 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					7E577E577E577E577E570003 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = AAAAAAAAAAAAAAAAAAAA0002;
+					};
+				};
+			};
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0003 /* Build configuration list for PBXProject "Selway" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AAAAAAAAAAAAAAAAAAAA000C;
+			packageReferences = (
+				5A5A5A5A5A5A5A5A5A5A0001 /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
+			productRefGroup = AAAAAAAAAAAAAAAAAAAA000D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAAAAAAAAAAAAAAAAAAA0002 /* Selway */,
+				AAAAAAAAAAAAAAAAAAAA0030 /* SelwayExtension */,
+				7E577E577E577E577E570003 /* SelwayUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA000A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0027 /* Assets.xcassets in Resources */,
+				DDDDDDDDDDDDDDDDDDDD0002 /* AceEditor in Resources */,
+				A3C9E03A7B4E4C3391C5A001 /* Localizable.xcstrings in Resources */,
+				A3C9E03A7B4E4C3391C5A007 /* KeyNames.xcstrings in Resources */,
+				A3C9E03A7B4E4C3391C5A008 /* Grouping.xcstrings in Resources */,
+				A3C9E03A7B4E4C3391C5A002 /* InfoPlist.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0035 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C9E03A7B4E4C3391C5A003 /* Extension Localizable.xcstrings in Resources */,
+				A3C9E03A7B4E4C3391C5A00B /* Extension InfoPlist.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E577E577E577E577E570006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA0009 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2F2F2F2F2F2F2F2F2F20007 /* FileIconView.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20006 /* FileContextMenu.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20005 /* DirectoryWatcher.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20004 /* BrowserWindowRouter.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20003 /* BrowserCommands.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20002 /* FileOperationProgressView.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F20001 /* EditorSavePrompts.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0020 /* SelwayApp.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0021 /* ContentView.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0022 /* PathBarView.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0023 /* SearchScopeView.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0024 /* QuickActionsToolbar.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0025 /* FolderCreationService.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0026 /* SearchEngine.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0028 /* SidebarView.swift in Sources */,
+				C0EC7C0EC7C0EC7C0EC70002 /* ConnectToServer.swift in Sources */,
+				B0B0B0B0B0B0B0B0B0B00002 /* NetworkBrowser.swift in Sources */,
+				BA4E9A4EBA4E9A4EBA4E0002 /* BrowserPane.swift in Sources */,
+				D0A1D0A1D0A1D0A1D0A10002 /* DualPane.swift in Sources */,
+				D15C0E4ED15C0E4ED15C0002 /* DiskOverviewView.swift in Sources */,
+				BBBBBBBBBBBBBBBBBBBB0002 /* FileItem.swift in Sources */,
+				BBBBBBBBBBBBBBBBBBBB0004 /* ListView.swift in Sources */,
+				BBBBBBBBBBBBBBBBBBBB0006 /* IconsView.swift in Sources */,
+				1C0A1C0A1C0A1C0A1C0A0002 /* IconMouseView.swift in Sources */,
+				1C0A1C0A1C0A1C0A1C0A0004 /* IconRubberBand.swift in Sources */,
+				BBBBBBBBBBBBBBBBBBBB0008 /* ColumnsView.swift in Sources */,
+				BBBBBBBBBBBBBBBBBBBB000A /* StatusBarView.swift in Sources */,
+				EEEEEEEEEEEEEEEEEEEE0002 /* FileDragSupport.swift in Sources */,
+				D50BD50BD50BD50BD50B0002 /* FileDropSupport.swift in Sources */,
+				CCCCCCCCCCCCCCCCCCCC0002 /* MarkdownReaderView.swift in Sources */,
+				CCCCCCCCCCCCCCCCCCCC0004 /* SettingsView.swift in Sources */,
+				5E7715E7715E7715E7710002 /* SettingsTabs.swift in Sources */,
+				5E7715E7715E7715E7710004 /* SettingsSupport.swift in Sources */,
+				5E7715E7715E7715E7710006 /* DeleteCommands.swift in Sources */,
+				CCCCCCCCCCCCCCCCCCCC0006 /* CodeEditorView.swift in Sources */,
+				FFFFFFFFFFFFFFFF0002 /* UserPreferences.swift in Sources */,
+				FFFFFFFFFFFFFFFF0004 /* UpdateManager.swift in Sources */,
+				FFFFFFFFFFFFFFFF0006 /* ErrorReportSheet.swift in Sources */,
+				FFFFFFFFFFFFFFFF0008 /* MarkdownFormatActions.swift in Sources */,
+				FFFFFFFFFFFFFFFF000A /* MarkdownEditorController.swift in Sources */,
+				FFFFFFFFFFFFFFFF000C /* FirstRunSheet.swift in Sources */,
+				AB0A7AB0A7AB0A7AB0A70002 /* AboutWindow.swift in Sources */,
+				FFFFFFFFFFFFFFFF000E /* TextScale.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0034 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0050 /* FinderSyncExtension.swift in Sources */,
+				E10E10E10E10E10E10E10011 /* ShellCopyPath.swift in Sources */,
+				E10E10E10E10E10E10E10012 /* FileOpsURLScheme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E577E577E577E577E570004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AAAAAAAAAAAAAAAAAAAA0061 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAAAAAAAAAAAAAAAAAAA0030 /* SelwayExtension */;
+			targetProxy = AAAAAAAAAAAAAAAAAAAA0060 /* PBXContainerItemProxy */;
+		};
+		7E577E577E577E577E570008 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAAAAAAAAAAAAAAAAAAA0002 /* Selway */;
+			targetProxy = 7E577E577E577E577E570007 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AAAAAAAAAAAAAAAAAAAA0004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0005 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Selway/Selway.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				OTHER_CODE_SIGN_FLAGS = "--options=runtime";
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Selway/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Selway/Selway.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Selway/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				OTHER_CODE_SIGN_FLAGS = "--options=runtime";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SelwayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SelwayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7E577E577E577E577E57000D /* UITest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG SELWAY_UI_TESTING $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = UITest;
+		};
+		7E577E577E577E577E57000E /* UITest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Selway/Selway.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = NO;
+				EXCLUDED_SOURCE_FILE_NAMES = SelwayExtension.appex;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Selway/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = UITest;
+		};
+		7E577E577E577E577E57000F /* UITest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 22;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SelwayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.21;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitest.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = UITest;
+		};
+		7E577E577E577E577E57000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayUITests/SelwayUITests.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Selway;
+			};
+			name = Debug;
+		};
+		7E577E577E577E577E57000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayUITests/SelwayUITests.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Selway;
+			};
+			name = Release;
+		};
+		7E577E577E577E577E57000C /* UITest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SelwayUITests/SelwayUITests.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Selway;
+			};
+			name = UITest;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAAAAAAAAAAAAAAAAAAA0003 /* Build configuration list for PBXProject "Selway" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0004 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0005 /* Release */,
+				7E577E577E577E577E57000D /* UITest */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0006 /* Build configuration list for PBXNativeTarget "Selway" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0007 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0008 /* Release */,
+				7E577E577E577E577E57000E /* UITest */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0031 /* Build configuration list for PBXNativeTarget "SelwayExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0032 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0033 /* Release */,
+				7E577E577E577E577E57000F /* UITest */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E577E577E577E577E570009 /* Build configuration list for PBXNativeTarget "SelwayUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E577E577E577E577E57000A /* Debug */,
+				7E577E577E577E577E57000B /* Release */,
+				7E577E577E577E577E57000C /* UITest */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A5A5A5A5A5A5A5A5A5A0001 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A5A5A5A5A5A5A5A5A5A0002 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A5A5A5A5A5A5A5A5A5A0001 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AAAAAAAAAAAAAAAAAAAA0001 /* Project object */;
+}

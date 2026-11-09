@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- What Xcode puts in the runner's entitlements itself when the target has none. -->
+	<key>com.apple.application-identifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER).xctrunner</string>
+	<!-- Xcode signs the UI test runner with its own sandboxed entitlements, which let it
+	     read anywhere but write only in its container. Fixture folders go here instead
+	     (Fixture.swift): the app under test reads it without the privacy prompt another
+	     app's container would raise. -->
+	<key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
+	<array>
+		<string>/private/tmp/studio.irq.selway.uitests/</string>
+	</array>
+</dict>
+</plist>
