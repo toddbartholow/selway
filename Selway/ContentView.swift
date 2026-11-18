@@ -2,6 +2,19 @@ import SwiftUI
 import Quartz
 import UniformTypeIdentifiers
 
+/// Saves the window's places (ContentView.saveWindowFolderSnapshot) when a
+/// pane's location changes, observed here so the change updates this child
+/// view, not the whole browser window.
+private struct WindowFolderStateObserver<Content: View>: View {
+    let pane: PaneState
+    let content: Content
+    let save: () -> Void
+
+    var body: some View {
+        content.onChange(of: pane.model.location) { _, _ in save() }
+    }
+}
+
 /// A browser window: the sidebar, the toolbar and search field, and its pane
 /// or two (BrowserPane, each showing a PaneState; PaneSplit lays them out),
 /// with what acts for the whole window:
@@ -54,6 +67,8 @@ struct ContentView: View {
     @AppStorage(SettingsKeys.showStatusBar)        private var showStatusBar     = true
     @State private var searchKeyMonitor: Any?
     @Environment(\.layoutDirection) private var layoutDirection
+    /// Reopens a restored window's panes on their saved places.
+    @State private var restorer = WindowFolderRestorer()
     @State private var showFirstRun = false
     @State private var errorMsg:     String?
     /// Go → Connect to Server…, or a saved server's row: the sheet.
@@ -176,6 +191,14 @@ struct ContentView: View {
             #if SELWAY_UI_TESTING
             UITestHooks.place(window)
             #endif
+            // A restored window that appeared before it was in its NSWindow
+            // starts now that its identifier says which one it is.
+            if lifecycle.awaitsWindow, window != nil {
+                lifecycle.awaitsWindow = false
+                startRestoredPanes()
+            } else {
+                saveWindowFolderSnapshot()
+            }
         })
         // Keyboard shortcuts (undo/redo, cut/copy/paste, select all, new folder,
         // hidden files, Quick Look) are menu commands that act on the key window
@@ -230,13 +253,24 @@ struct ContentView: View {
                 lifecycle.hasAppeared = true
                 let request = router.takeInitialRequest(for: windowID, requestID: requestID)
                 if request.forcesSinglePane, panes.isDual { panes.hideSecond() }
-                // The panes get their first location only after they have started.
-                panes.start()
-                panes.showFirstFolders(initial: request.location)
-            } else {
+                if WindowFolderRestoration.shouldRestore(
+                    hasLiveRequest: request.hasLiveRequest,
+                    isRestoringWindows: WindowFolderRegistry.shared.isRestoringWindows) {
+                    // Which window this is (its identifier) is known once it's
+                    // in its NSWindow, which can be just after this.
+                    if hostWindow.window != nil { startRestoredPanes() } else { lifecycle.awaitsWindow = true }
+                } else {
+                    // The panes get their first location only after they have started.
+                    panes.start()
+                    panes.showFirstFolders(initial: request.location)
+                    saveWindowFolderSnapshot()
+                }
+            } else if !lifecycle.awaitsWindow {
                 // A tab moved back into view gets its existing panes started
-                // again with their folders and histories intact.
+                // again with their folders and histories intact. A restored
+                // pane stopped before it was given a folder gets one now.
                 panes.start()
+                panes.shown.forEach { restorer.resumeIfEmpty($0) }
             }
             if !didShowFirstRun {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -250,7 +284,12 @@ struct ContentView: View {
             panes.shown.filter { $0.model.backupUnavailable || $0.model.needsFullDiskAccess }.forEach { $0.reload() }
         }
         .onChange(of: layoutDirection, initial: true) { _, direction in panes.layoutDirection = direction }
+        .onChange(of: panes.isDual) { _, _ in saveWindowFolderSnapshot() }
         .onDisappear {
+            // Gone before it was in its NSWindow: it starts nothing if it's
+            // attached later, and starts like any reappearing window if it
+            // comes back.
+            lifecycle.awaitsWindow = false
             BrowserWindowRouter.shared.unregister(windowID)
             // The panes' watches and live queries: an Entire Mac or tag search
             // would otherwise keep updating results for a window nobody can see.
@@ -598,12 +637,44 @@ struct ContentView: View {
     /// folder and counts are always in sight; the preview panel is left out.
     private func paneView(_ pane: PaneState, position: PanePosition?) -> some View {
         let dual = position != nil
-        return BrowserPane(pane: pane, panes: panes, position: position, fileOps: fileOps,
-                           reloadRelay: reloadRelay, favorites: favorites,
-                           viewMode: viewMode, groupBy: groupBy, sortField: sortField, sortAscending: sortAscending,
-                           folderOrder: folderOrder, showHidden: showHidden, showColumnTree: showColumnTree,
-                           showPreview: showPreview && !dual, showPathBar: showPathBar || dual,
-                           showStatusBar: showStatusBar || dual)
+        let browser = BrowserPane(pane: pane, panes: panes, position: position, fileOps: fileOps,
+                                  reloadRelay: reloadRelay, favorites: favorites,
+                                  viewMode: viewMode, groupBy: groupBy, sortField: sortField, sortAscending: sortAscending,
+                                  folderOrder: folderOrder, showHidden: showHidden, showColumnTree: showColumnTree,
+                                  showPreview: showPreview && !dual, showPathBar: showPathBar || dual,
+                                  showStatusBar: showStatusBar || dual)
+        return WindowFolderStateObserver(pane: pane, content: browser, save: saveWindowFolderSnapshot)
+    }
+
+    /// Starts the panes of a window macOS brought back at launch on the places
+    /// it saved (WindowFolderRegistry), or as a new window's when it saved
+    /// none.
+    private func startRestoredPanes() {
+        let snapshot = hostWindow.window?.identifier.flatMap { WindowFolderRegistry.shared.take(for: $0.rawValue) }
+        if let snapshot { panes.restoreLayout(isDual: snapshot.isDual) }
+        // The panes get their first location only after they have started.
+        panes.start()
+        if let snapshot {
+            restorer.restore(snapshot.first, in: panes.first)
+            if panes.isDual, let second = panes.second { restorer.restore(snapshot.second, in: second) }
+        } else {
+            panes.showFirstFolders(initial: nil)
+        }
+        saveWindowFolderSnapshot()
+    }
+
+    /// Saves where the panes are, for a window macOS brings back at launch.
+    /// A pane still being restored saves its saved place (WindowFolderRestorer).
+    /// Also called once the panes have started: a pane can reach its first
+    /// folder without its location changing (one opened on the folder the
+    /// model starts on).
+    private func saveWindowFolderSnapshot() {
+        guard panes.isStarted, let identifier = hostWindow.window?.identifier?.rawValue else { return }
+        let snapshot = WindowFolderSnapshot(
+            first: restorer.place(for: panes.first),
+            second: panes.isDual ? panes.second.flatMap { restorer.place(for: $0) } : nil,
+            isDual: panes.isDual)
+        WindowFolderRegistry.shared.update(snapshot, for: identifier)
     }
 
     // MARK: - Helpers

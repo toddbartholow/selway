@@ -2,6 +2,20 @@
 
 ---
 
+## 0.5.24
+
+- Windows brought back at launch (after Quit and Keep Windows, or with macOS set to
+  keep windows) reopen on the folders they showed, in both panes, instead of the New
+  windows folder. A pane whose folder is gone shows the New windows folder. One whose
+  folder is on a slow share shows the New windows folder until the share answers, then
+  moves to its folder if you haven't used the pane meanwhile.
+
+## 0.5.23
+
+- Opening a folder on a share that has stopped answering no longer freezes the window
+  while Selway adds the folder to Recent.
+- The free-space reading in the status bar refreshes when a file operation finishes.
+
 ## 0.5.22
 
 - The About window drops its Website button: the GitHub button covers it, and the

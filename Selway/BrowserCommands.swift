@@ -108,6 +108,14 @@ final class BrowserNavigation: ObservableObject {
 
     func forward() -> BrowserLocation? { history.goForward(exists: { $0.folder.map(FileItem.isBrowsableFolder) ?? false }) }
 
+    /// Starts the history over at `location`, with nothing to go Back or
+    /// Forward to: a restored window's folder taking the place of the one
+    /// shown while it was checked (WindowFolderRestorer).
+    func restart(at location: BrowserLocation) {
+        let next = NavigationHistory(current: location)
+        if next != history { history = next }
+    }
+
     /// The window moved to `location` (NavigationHistory.arrive).
     func arrive(at location: BrowserLocation, columnSelection: BrowserLocation?) {
         var next = history

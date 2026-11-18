@@ -172,3 +172,76 @@ import Testing
         #expect(world.published.dropFirst(shown).allSatisfy { $0[key("/Volumes/NAS/Docs")] == nil })
     }
 }
+
+@Suite struct PinnedFolderAnswerEqualityTests {
+    @Test func answersCompareByKindAndInfo() {
+        typealias Answer = PinnedFolderAnswer<String>
+        #expect(Answer.present("a") == .present("a"))
+        #expect(Answer.present("a") != .present("b"))
+        #expect(Answer.missing == .missing)
+        #expect(Answer.refused != .missing)
+        #expect(Answer.present("a") != .missing)
+        let lists: [[String: Answer]] = [["/a": .present("a")], ["/a": .present("a"), "/b": .missing]]
+        #expect(lists[0] != lists[1])
+    }
+}
+
+@Suite struct RecentFolderCheckReaderTests {
+    /// Checks run when the test says; answers are recorded.
+    final class World: @unchecked Sendable {
+        private let lock = NSLock()
+        private var jobs: [() -> Void] = []
+        private var checks: [String] = []
+        private var answers: [(String, Bool)] = []
+
+        var checked: [String] { lock.withLock { checks } }
+        var answered: [(String, Bool)] { lock.withLock { answers } }
+
+        func reader(isFolder: @escaping (URL) -> Bool = { _ in true }) -> RecentFolderCheckReader {
+            RecentFolderCheckReader(hooks: .init(
+                isFolder: { [self] url in lock.withLock { checks.append(url.path) }; return isFolder(url) },
+                start: { [self] job in lock.withLock { jobs.append(job) } })) { [self] path, isFolder in
+                    lock.withLock { answers.append((path, isFolder)) }
+                }
+        }
+
+        /// Runs the checks started so far, oldest first.
+        func runChecks() {
+            let started = lock.withLock { defer { jobs = [] }; return jobs }
+            started.forEach { $0() }
+        }
+    }
+
+    @Test func aFolderVisitedAgainWhileItsCheckWaitsIsCheckedOnce() {
+        let world = World()
+        let reader = world.reader()
+        let folder = URL(fileURLWithPath: "/Volumes/NAS/Docs", isDirectory: true)
+        reader.visit(folder)
+        reader.visit(folder)
+        world.runChecks()
+        #expect(world.checked == ["/Volumes/NAS/Docs"])
+        #expect(world.answered.map(\.0) == ["/Volumes/NAS/Docs"])
+    }
+
+    @Test func aFolderIsCheckedAgainOnceItsCheckHasAnswered() {
+        let world = World()
+        let reader = world.reader()
+        let folder = URL(fileURLWithPath: "/Users/me/Work", isDirectory: true)
+        reader.visit(folder)
+        world.runChecks()
+        reader.visit(folder)
+        world.runChecks()
+        #expect(world.checked == ["/Users/me/Work", "/Users/me/Work"])
+    }
+
+    @Test func differentFoldersGetChecksOfTheirOwn() {
+        let world = World()
+        let reader = world.reader { $0.path != "/Users/me/file.txt" }
+        reader.visit(URL(fileURLWithPath: "/Volumes/NAS/Docs", isDirectory: true))
+        reader.visit(URL(fileURLWithPath: "/Users/me/file.txt"))
+        reader.visit(URL(fileURLWithPath: "/Users/me/Work", isDirectory: true))
+        world.runChecks()
+        #expect(world.answered.map(\.0) == ["/Volumes/NAS/Docs", "/Users/me/file.txt", "/Users/me/Work"])
+        #expect(world.answered.map(\.1) == [true, false, true])
+    }
+}

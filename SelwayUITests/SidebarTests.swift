@@ -51,6 +51,20 @@ final class SidebarTests: SelwayUITestCase {
         XCTAssertFalse(text("GoneFolder", in: sidebar).exists, "a Recent folder that's gone is listed")
     }
 
+    /// A folder opened joins Recent once a check off the main thread finds
+    /// it's a folder (RecentFolderCheckReader), and is listed at the top.
+    func testAFolderOpenedJoinsRecent() throws {
+        try fixture.makeStandardContents()
+        try launch(defaults: ["selwaySidebarShowRecent": true, "recentFolders": [String]()],
+                   expecting: Fixture.standardListing)
+        let opened = text(Fixture.folder, in: sidebar)
+        XCTAssertFalse(opened.exists, "\(Fixture.folder) is in the sidebar before it was opened")
+
+        doubleClick(item(Fixture.folder))
+        waitForFolder(Fixture.folder, listing: Fixture.innerFile)
+        XCTAssertTrue(opened.waitForExistence(timeout: 10), "the folder opened didn't join Recent")
+    }
+
     /// /Applications, the one Favorites row the tests show: it needs no privacy
     /// permission. The folder is only listed, never changed.
     func testClickingAFavoritesRowGoesThereAndHighlightsIt() throws {

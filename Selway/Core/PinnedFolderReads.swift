@@ -16,6 +16,11 @@ enum PinnedFolderAnswer<Info> {
     }
 }
 
+/// Lets a reader's caller skip publishing answers that say nothing new. The
+/// reader itself publishes every list: a caller may act on its live state
+/// (RecentFoldersModel asks `isGone`), which can change between equal lists.
+extension PinnedFolderAnswer: Equatable where Info: Equatable {}
+
 /// Reads the pinned folders off the main thread, as SidebarVolumeReader
 /// reads the volumes: a folder on a share that has stopped answering can
 /// take minutes to look up, and its row must never look at it on the main
@@ -204,6 +209,63 @@ final class PinnedFolderReader<Info>: @unchecked Sendable {
                 condition.unlock()
                 if isNewest { publish(snapshot) }
             }
+        }
+    }
+}
+
+/// Checks the folders opened in any window before they join Recent, off the
+/// main thread: on a share that has stopped answering, looking at a folder
+/// can take minutes. One reader serves every sidebar, so a folder visited
+/// again while its check hasn't answered gets no second check (and no second
+/// thread stuck on the same share).
+///
+/// A check that answers late still adds its folder to Recent, at the top, as
+/// a visit made then would.
+///
+/// For the Swift 6 language mode, the hooks and `deliver` would need to be
+/// `@Sendable` (the state is guarded by `lock`, hence `@unchecked`).
+final class RecentFolderCheckReader: @unchecked Sendable {
+    /// What the reader asks of the system; the tests give fakes.
+    struct Hooks {
+        /// Whether `url` is a folder Recent can list. One the guard refuses
+        /// (under `/net`, `/home` or `/Network`) counts as one, unlooked at:
+        /// it was just shown as a folder, and its row is drawn without
+        /// looking at it. Not `hasDirectoryPath`: a folder reached through a
+        /// symlink (a ~/Downloads link to another volume) has no trailing slash.
+        var isFolder: (URL) -> Bool = { url in
+            RecentFolders.isUnchecked(url.path) || FileItem.isBrowsableFolder(url)
+        }
+        /// Runs a check on a thread of its own. Not a dispatch queue: a check
+        /// stuck in the kernel would hold one of its few threads.
+        var start: (@escaping () -> Void) -> Void = { work in
+            let thread = Thread(block: work)
+            thread.name = "studio.irq.selway.recent-folder-check"
+            thread.qualityOfService = .utility
+            thread.start()
+        }
+    }
+
+    private let hooks: Hooks
+    /// Hears each answer, on the checking thread: the folder's path and
+    /// whether it's a folder Recent can list.
+    private let deliver: (String, Bool) -> Void
+    private let lock = NSLock()
+    /// Folders (by ShellPath.key) whose check hasn't answered.
+    private var checking: Set<String> = []
+
+    init(hooks: Hooks = Hooks(), deliver: @escaping (String, Bool) -> Void) {
+        self.hooks = hooks
+        self.deliver = deliver
+    }
+
+    /// Checks `url` in the background, unless a check of it hasn't answered.
+    func visit(_ url: URL) {
+        let key = ShellPath.key(url)
+        guard lock.withLock({ checking.insert(key).inserted }) else { return }
+        hooks.start { [self] in
+            let isFolder = hooks.isFolder(url)
+            lock.withLock { _ = checking.remove(key) }
+            deliver(url.path, isFolder)
         }
     }
 }

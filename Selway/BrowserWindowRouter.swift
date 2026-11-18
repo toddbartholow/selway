@@ -56,6 +56,7 @@ final class BrowserWindowRouter {
     struct InitialRequest {
         let location: BrowserLocation?
         let forcesSinglePane: Bool
+        let hasLiveRequest: Bool
     }
 
     private var entries: [UUID: Entry] = [:]
@@ -266,7 +267,8 @@ final class BrowserWindowRouter {
                                               selectsWhenJoined: pending.selectsWhenJoined)
                 joinTabIfRequested(id)
             }
-            return InitialRequest(location: pending.location, forcesSinglePane: pending.forcesSinglePane)
+            return InitialRequest(location: pending.location, forcesSinglePane: pending.forcesSinglePane,
+                                  hasLiveRequest: true)
         }
         if !coldLaunchURLs.isEmpty {
             AppDelegate.pendingNavigationURL = nil
@@ -275,13 +277,13 @@ final class BrowserWindowRouter {
             coldLaunchURLs = []
             // Called from the first window's onAppear, so openWindow is set now.
             DispatchQueue.main.async { rest.forEach { self.openNewWindow(at: $0) } }
-            return InitialRequest(location: .folder(first), forcesSinglePane: false)
+            return InitialRequest(location: .folder(first), forcesSinglePane: false, hasLiveRequest: true)
         }
         if let url = AppDelegate.pendingNavigationURL {
             AppDelegate.pendingNavigationURL = nil
-            return InitialRequest(location: .folder(url), forcesSinglePane: false)
+            return InitialRequest(location: .folder(url), forcesSinglePane: false, hasLiveRequest: true)
         }
-        return InitialRequest(location: nil, forcesSinglePane: false)
+        return InitialRequest(location: nil, forcesSinglePane: false, hasLiveRequest: false)
     }
 
     /// Adds the window of `id` to its requested tab group and restores the
@@ -427,6 +429,9 @@ final class WeakWindow {
 /// time must not start the window over.
 final class BrowserLifecycle {
     var hasAppeared = false
+    /// A window macOS is bringing back appeared before it was in its NSWindow:
+    /// its panes start once it is (ContentView.startRestoredPanes).
+    var awaitsWindow = false
 }
 
 /// Weak NSView holder, likewise.

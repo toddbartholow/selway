@@ -28,6 +28,7 @@
 		B0B0B0B0B0B0B0B0B0B00002 /* NetworkBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */; };
 		BA4E9A4EBA4E9A4EBA4E0002 /* BrowserPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */; };
 		D0A1D0A1D0A1D0A1D0A10002 /* DualPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */; };
+		E1F0E1F0E1F0E1F0E1F00002 /* WindowFolderRestorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F0E1F0E1F0E1F0E1F00001 /* WindowFolderRestorer.swift */; };
 		D15C0E4ED15C0E4ED15C0002 /* DiskOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0050 /* FinderSyncExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0040 /* FinderSyncExtension.swift */; };
 		E10E10E10E10E10E10E10011 /* ShellCopyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10E10E10E10E10E10E10001 /* ShellCopyPath.swift */; };
@@ -118,6 +119,7 @@
 		B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkBrowser.swift; sourceTree = "<group>"; };
 		BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserPane.swift; sourceTree = "<group>"; };
 		D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualPane.swift; sourceTree = "<group>"; };
+		E1F0E1F0E1F0E1F0E1F00001 /* WindowFolderRestorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFolderRestorer.swift; sourceTree = "<group>"; };
 		D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOverviewView.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				B0B0B0B0B0B0B0B0B0B00001 /* NetworkBrowser.swift */,
 				BA4E9A4EBA4E9A4EBA4E0001 /* BrowserPane.swift */,
 				D0A1D0A1D0A1D0A1D0A10001 /* DualPane.swift */,
+				E1F0E1F0E1F0E1F0E1F00001 /* WindowFolderRestorer.swift */,
 				D15C0E4ED15C0E4ED15C0001 /* DiskOverviewView.swift */,
 				AAAAAAAAAAAAAAAAAAAA0017 /* Info.plist */,
 				A3C9E03A7B4E4C3391C5A004 /* Localizable.xcstrings */,
@@ -463,6 +466,7 @@
 				B0B0B0B0B0B0B0B0B0B00002 /* NetworkBrowser.swift in Sources */,
 				BA4E9A4EBA4E9A4EBA4E0002 /* BrowserPane.swift in Sources */,
 				D0A1D0A1D0A1D0A1D0A10002 /* DualPane.swift in Sources */,
+				E1F0E1F0E1F0E1F0E1F00002 /* WindowFolderRestorer.swift in Sources */,
 				D15C0E4ED15C0E4ED15C0002 /* DiskOverviewView.swift in Sources */,
 				BBBBBBBBBBBBBBBBBBBB0002 /* FileItem.swift in Sources */,
 				BBBBBBBBBBBBBBBBBBBB0004 /* ListView.swift in Sources */,
@@ -623,7 +627,7 @@
 				CODE_SIGN_ENTITLEMENTS = Selway/Selway.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -635,7 +639,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -653,7 +657,7 @@
 				CODE_SIGN_ENTITLEMENTS = Selway/Selway.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = NO;
@@ -663,7 +667,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -677,7 +681,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -689,7 +693,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -704,7 +708,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -714,7 +718,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -783,7 +787,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -795,7 +799,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -810,7 +814,7 @@
 				CODE_SIGN_ENTITLEMENTS = SelwayExtension/SelwayExtension.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -821,7 +825,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.22;
+				MARKETING_VERSION = 0.5.24;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = studio.irq.selway.uitest.extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

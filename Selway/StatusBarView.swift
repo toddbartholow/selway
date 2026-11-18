@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct StatusBarView: View {
+    private static let capacityReader = DiskCapacityReader()
+
     let files: [FileItem]
     let selectedIDs: Set<String>
     let currentPath: URL
@@ -22,6 +24,8 @@ struct StatusBarView: View {
     /// Volume holding `currentPath`; free space is polled per volume, so moving
     /// between folders on one disk (or watcher reloads) doesn't start new queries.
     @State private var volume: URL?
+    /// A completed file operation starts a fresh capacity read immediately.
+    @State private var capacityRefresh = 0
 
     var body: some View {
         HStack(spacing: 16) {
@@ -72,15 +76,25 @@ struct StatusBarView: View {
         }
         // Every 30 s while on the same volume. The query runs detached and can't
         // be interrupted, so its result is dropped if the volume changed (or
-        // the view went away) meanwhile; a slow volume can't overwrite a newer one.
-        .task(id: volume.map(ShellPath.key)) {
+        // the view went away) meanwhile. The reader coalesces simultaneous reads
+        // for the same volume, including reads restarted by file operations.
+        .task(id: "\(volume.map(ShellPath.key) ?? ""):\(capacityRefresh)") {
             guard let url = volume else { return }
+            var forceRefresh = capacityRefresh > 0
             while !Task.isCancelled {
-                let free = await Self.loadFreeSpace(at: url)
+                let capacity = await Self.capacityReader.read(at: url, forceRefresh: forceRefresh)
                 guard !Task.isCancelled else { return }
-                freeDiskSpace = free
+                forceRefresh = false
+                if case let .known(_, free) = capacity {
+                    freeDiskSpace = ByteCountFormatter.string(fromByteCount: free, countStyle: .file)
+                } else {
+                    freeDiskSpace = nil
+                }
                 try? await Task.sleep(nanoseconds: 30_000_000_000)
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .selwayFileOperationDidFinish)) { _ in
+            capacityRefresh &+= 1
         }
     }
 
@@ -139,15 +153,4 @@ struct StatusBarView: View {
         }.value
     }
 
-    private static func loadFreeSpace(at url: URL) async -> String? {
-        await Task.detached(priority: .utility) { () -> String? in
-            let keys: Set<URLResourceKey> = [.volumeAvailableCapacityForImportantUsageKey,
-                                             .volumeAvailableCapacityKey]
-            guard let v = try? url.resourceValues(forKeys: keys) else { return nil }
-            // "Important usage" includes purgeable space, matching Finder.
-            let bytes = VolumeFreeSpace.bytes(importantUsage: v.volumeAvailableCapacityForImportantUsage,
-                                              available: v.volumeAvailableCapacity)
-            return bytes.map { ByteCountFormatter.string(fromByteCount: $0, countStyle: .file) }
-        }.value
-    }
 }

@@ -1512,7 +1512,7 @@ final class BrowserPanes {
     /// Makes the pane clicked or focused the active one, while the window is
     /// shown (between `start` and `stop`).
     @ObservationIgnored private let tracker = ActivePaneTracker()
-    @ObservationIgnored private var isStarted = false
+    @ObservationIgnored private(set) var isStarted = false
 
     /// New windows and tabs show two panes if the last window to change it
     /// did (UserPreferences.dualPaneKey). Free of side effects, like
@@ -1539,6 +1539,22 @@ final class BrowserPanes {
     var activeFirst: [PaneState] {
         let active = active
         return [active] + shown.filter { $0 !== active }
+    }
+
+    /// A restored window's saved layout, one pane or two, set before the
+    /// panes start (`start` then starts each pane shown). The active pane
+    /// stays the first, as in any new window. A second pane made by the
+    /// remembered layout (UserPreferences.dualPaneKey) but not wanted stays
+    /// hidden, as `hideSecond` leaves one.
+    func restoreLayout(isDual dual: Bool) {
+        assert(!isStarted, "a window's layout is restored before its panes start")
+        guard dual != isDual else { return }
+        if dual {
+            let pane = second ?? PaneState()
+            second = pane
+            pane.window = window
+        }
+        isDual = dual
     }
 
     /// The pane shown beside `pane`, in a dual window.

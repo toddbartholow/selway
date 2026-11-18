@@ -30,6 +30,20 @@ class SelwayUITestCase: XCTestCase {
         static let bonjour = "-SelwayUITestBonjour"
         static let linkFollowGate = "-SelwayUITestLinkFollowGate"
         static let promiseSource = "-SelwayUITestPromiseSource"
+        static let forgetSavedWindows = "-SelwayUITestForgetSavedWindows"
+    }
+
+    /// What a launch does with windows saved by an earlier one.
+    enum SavedWindows {
+        /// Not brought back (`-ApplePersistenceIgnoreState`), as for most tests.
+        case ignored
+        /// Closed once launching has finished, with the folder opened in a new
+        /// window, so quitting saves only what the test opens: the first
+        /// launch of a test that relaunches to bring them back.
+        case forgotten
+        /// Brought back, as at a launch after Quit and Keep Windows. No folder
+        /// is asked for unless `folder` is given.
+        case restored
     }
 
     override func setUpWithError() throws {
@@ -112,19 +126,27 @@ class SelwayUITestCase: XCTestCase {
     func launch(defaults overrides: [String: Any] = [:], volumes: [[String: Any]]? = nil, folder: URL? = nil,
                 autofsFolder: URL? = nil, bonjour: [String]? = nil, linkFollowGate: URL? = nil,
                 promisedFiles: [String]? = nil, additionalArguments: [String] = [],
+                savedWindows: SavedWindows = .ignored,
                 expecting names: [String], itemCount: Int? = nil, checksItemCount: Bool = true,
                 file: StaticString = #filePath, line: UInt = #line) throws {
         let values = standardDefaults().merging(overrides) { _, new in new }
         let json = try JSONSerialization.data(withJSONObject: values, options: [.sortedKeys])
         app.launchArguments = [
             Hook.enabled, "YES",
-            Hook.folder, (folder ?? fixture.root).path,
             Hook.defaults, String(decoding: json, as: UTF8.self),
-            // No windows restored from an earlier run of the UITest build.
-            "-ApplePersistenceIgnoreState", "YES",
             // English, whatever the Mac's language: the tests look for English text.
             "-AppleLanguages", "(en)",
         ]
+        if let folder {
+            app.launchArguments += [Hook.folder, folder.path]
+        } else if savedWindows != .restored {
+            app.launchArguments += [Hook.folder, fixture.root.path]
+        }
+        switch savedWindows {
+        case .ignored:   app.launchArguments += ["-ApplePersistenceIgnoreState", "YES"]
+        case .forgotten: app.launchArguments += [Hook.forgetSavedWindows]
+        case .restored:  break
+        }
         if let volumes {
             let list = try JSONSerialization.data(withJSONObject: volumes, options: [.sortedKeys])
             app.launchArguments += [Hook.volumes, String(decoding: list, as: UTF8.self)]

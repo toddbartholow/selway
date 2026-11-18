@@ -51,7 +51,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     /// ContentView consumes this on first appear.
     static var pendingNavigationURL: URL?
 
+    /// Each browser window's folders, by window, for the windows macOS brings
+    /// back at launch (WindowFolderRegistry). Decoded before any window is.
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool { true }
+
+    func application(_ app: NSApplication, willEncodeRestorableState coder: NSCoder) {
+        MainActor.assumeIsolated { WindowFolderRegistry.shared.encode(with: coder) }
+    }
+
+    func application(_ app: NSApplication, didDecodeRestorableState coder: NSCoder) {
+        MainActor.assumeIsolated { WindowFolderRegistry.shared.decode(from: coder) }
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Every window macOS brings back has appeared by now.
+        MainActor.assumeIsolated { WindowFolderRegistry.shared.launchFinished() }
+        #if SELWAY_UI_TESTING
+        MainActor.assumeIsolated { UITestHooks.forgetRestoredWindowsIfAsked() }
+        #endif
         NSApp.setActivationPolicy(.regular)
         UserPreferences.migrateBrowseDefaultsIfNeeded()
         TextSizeCommands.installEqualsShortcut()
@@ -793,6 +810,15 @@ enum UITestHooks {
     static let timeMachineArgument = "-SelwayUITestTimeMachine"
     static let windowOpenDelayArgument = "-SelwayUITestWindowOpenDelay"
     static let folderHandlerLeftoverArgument = "-SelwayUITestFolderHandlerLeftover"
+    /// Start with no saved windows, while saving them on quit as usual
+    /// (`-ApplePersistenceIgnoreState` stops both): once launching has
+    /// finished, the windows macOS brought back close, and the test's folder
+    /// opens in a new one.
+    static let forgetSavedWindowsArgument = "-SelwayUITestForgetSavedWindows"
+
+    /// The test's folder, held back from the first window when saved windows
+    /// are forgotten (a restored window would take it).
+    @MainActor private static var folderAfterForgetting: URL?
 
     /// The stand-in for what an older Selway left behind (DefaultFolderHandler):
     /// nil outside the tests and without the argument, then true until Restore
@@ -816,6 +842,23 @@ enum UITestHooks {
         return ProcessInfo.processInfo.arguments.contains(enabledArgument)
     }()
 
+    /// With `-SelwayUITestForgetSavedWindows`, once launching has finished:
+    /// closes every browser window (those macOS brought back, or the first
+    /// one) and opens the test's folder in a new one, so quitting saves only
+    /// what the test opens.
+    @MainActor static func forgetRestoredWindowsIfAsked() {
+        guard isActive, ProcessInfo.processInfo.arguments.contains(forgetSavedWindowsArgument) else { return }
+        WindowFolderRegistry.shared.forgetRestoredWindows()
+        // After the windows that appeared while launching have started.
+        DispatchQueue.main.async {
+            let prefix = BrowserWindowRouter.windowGroupID + "-"
+            NSApp.windows.filter { $0.identifier?.rawValue.hasPrefix(prefix) == true }.forEach { $0.close() }
+            if let folder = folderAfterForgetting {
+                BrowserWindowRouter.shared.openNewWindow(at: folder)
+            }
+        }
+    }
+
     /// Called from `SelwayApp.init`, before any preference is read or window opens.
     static func applyLaunchArguments() {
         guard isActive, let domain = Bundle.main.bundleIdentifier else { return }
@@ -829,7 +872,12 @@ enum UITestHooks {
             for (key, value) in values { defaults.set(value, forKey: key) }
         }
         if let path = value(after: folderArgument), !path.isEmpty {
-            AppDelegate.pendingNavigationURL = URL(fileURLWithPath: path, isDirectory: true)
+            let url = URL(fileURLWithPath: path, isDirectory: true)
+            if ProcessInfo.processInfo.arguments.contains(forgetSavedWindowsArgument) {
+                MainActor.assumeIsolated { folderAfterForgetting = url }
+            } else {
+                AppDelegate.pendingNavigationURL = url
+            }
         }
         if let path = value(after: autofsFolderArgument), !path.isEmpty {
             AutomountGuard.uiTestAutofsFolder = path

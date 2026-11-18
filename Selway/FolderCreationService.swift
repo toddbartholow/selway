@@ -2,6 +2,10 @@ import Foundation
 import AppKit
 import Combine
 
+extension Notification.Name {
+    static let selwayFileOperationDidFinish = Notification.Name("studio.irq.selway.fileOperationDidFinish")
+}
+
 // MARK: - Action feedback (drives the in-app toast)
 
 struct ActionFeedback {
@@ -353,6 +357,7 @@ final class FileOperationsService: ObservableObject {
         report(result, total: total, action: .copy)
         reload()
         guard !result.done.isEmpty else { return }
+        NotificationCenter.default.post(name: .selwayFileOperationDidFinish, object: nil)
         if let undo = FileOpsUndoStep.undoingCopy(result.created) {
             registerUndo(undo, actionName: String(localized: "Copy", comment: "Undo action name for copying dropped items"), reload: reload)
         }
@@ -819,6 +824,7 @@ final class FileOperationsService: ObservableObject {
                     self.endOperation(op)
                     completion(result)
                     FileOpsActivityTracker.shared.end(activity)
+                    NotificationCenter.default.post(name: .selwayFileOperationDidFinish, object: nil)
                 }
             }
         }

@@ -205,7 +205,9 @@ final class DiskCapacityReader: @unchecked Sendable {
         /// Which read of the volume this is: a finished read's timer mustn't
         /// expire the next read of the same volume.
         let generation: Int
+        let url: URL
         var waiters: [CheckedContinuation<DiskCapacityState, Never>]
+        var refreshWaiters: [CheckedContinuation<DiskCapacityState, Never>] = []
         var didTimeOut = false
     }
 
@@ -226,10 +228,10 @@ final class DiskCapacityReader: @unchecked Sendable {
         self.readCapacity = readCapacity
     }
 
-    /// Coalesces callers for the same volume. `reading` is returned by the
-    /// overview model while no result is available; an expired read is
-    /// reported as `unavailable`.
-    func read(at url: URL) async -> DiskCapacityState {
+    /// Coalesces callers for the same volume. A forced refresh waits for an
+    /// in-flight read, then starts one fresh read shared by all refresh callers.
+    /// An expired read is reported as `unavailable`.
+    func read(at url: URL, forceRefresh: Bool = false) async -> DiskCapacityState {
         let key = ShellPath.key(url)
         return await withCheckedContinuation { continuation in
             lock.lock()
@@ -237,6 +239,10 @@ final class DiskCapacityReader: @unchecked Sendable {
                 if current.didTimeOut {
                     lock.unlock()
                     continuation.resume(returning: .unavailable)
+                } else if forceRefresh {
+                    current.refreshWaiters.append(continuation)
+                    pending[key] = current
+                    lock.unlock()
                 } else {
                     current.waiters.append(continuation)
                     pending[key] = current
@@ -246,16 +252,19 @@ final class DiskCapacityReader: @unchecked Sendable {
             }
             nextGeneration += 1
             let generation = nextGeneration
-            pending[key] = PendingRead(generation: generation, waiters: [continuation])
+            pending[key] = PendingRead(generation: generation, url: url, waiters: [continuation])
             lock.unlock()
-
-            queue.async { [self] in
-                let result = readCapacity(url).map { DiskCapacityState.known(total: $0.total, free: $0.free) }
-                    ?? .unavailable
-                complete(key: key, result: result)
-            }
-            queue.asyncAfter(deadline: .now() + timeout) { [self] in timeOut(key: key, generation: generation) }
+            startRead(at: url, key: key, generation: generation)
         }
+    }
+
+    private func startRead(at url: URL, key: String, generation: Int) {
+        queue.async { [self] in
+            let result = readCapacity(url).map { DiskCapacityState.known(total: $0.total, free: $0.free) }
+                ?? .unavailable
+            complete(key: key, generation: generation, result: result)
+        }
+        queue.asyncAfter(deadline: .now() + timeout) { [self] in timeOut(key: key, generation: generation) }
     }
 
     private func timeOut(key: String, generation: Int) {
@@ -265,19 +274,35 @@ final class DiskCapacityReader: @unchecked Sendable {
             return
         }
         current.didTimeOut = true
-        let waiters = current.waiters
+        let waiters = current.waiters + current.refreshWaiters
         current.waiters = []
+        current.refreshWaiters = []
         pending[key] = current
         lock.unlock()
         waiters.forEach { $0.resume(returning: .unavailable) }
     }
 
-    private func complete(key: String, result: DiskCapacityState) {
+    private func complete(key: String, generation: Int, result: DiskCapacityState) {
         lock.lock()
-        guard let current = pending.removeValue(forKey: key) else { lock.unlock(); return }
+        guard let current = pending[key], current.generation == generation else { lock.unlock(); return }
         let waiters = current.waiters
+        let nextRead: (url: URL, generation: Int)?
+        if current.refreshWaiters.isEmpty {
+            pending.removeValue(forKey: key)
+            nextRead = nil
+        } else {
+            nextGeneration += 1
+            let generation = nextGeneration
+            let next = PendingRead(generation: generation, url: current.url,
+                                   waiters: current.refreshWaiters)
+            pending[key] = next
+            nextRead = (current.url, generation)
+        }
         lock.unlock()
         waiters.forEach { $0.resume(returning: current.didTimeOut ? .unavailable : result) }
+        if let nextRead {
+            startRead(at: nextRead.url, key: key, generation: nextRead.generation)
+        }
     }
 
     private static func readSystemCapacity(at url: URL) -> (total: Int64, free: Int64)? {

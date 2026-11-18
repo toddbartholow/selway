@@ -11,6 +11,24 @@ import UniformTypeIdentifiers
 
 // MARK: - Favorites service (pinned folders and mounted volumes)
 
+/// A pinned or Recent folder's icon as read (FavoritesService.readFolderIcon),
+/// with what tells two reads apart. Equal reads draw the same row, so the
+/// sidebar skips publishing them. They compare by the folder's attribute
+/// modification date, not the images: comparing every refresh's images would
+/// cost more than the redraw it saves. Setting or removing a custom icon
+/// changes that date (the folder's FinderInfo and its Icon\r file).
+/// Made once on a reader's thread and never changed, hence `@unchecked`.
+struct FolderIconInfo: Equatable, @unchecked Sendable {
+    let image: NSImage
+    let modificationDate: Date?
+    /// The generic folder icon, given when the folder's own couldn't be drawn.
+    let isGeneric: Bool
+
+    static func == (a: FolderIconInfo, b: FolderIconInfo) -> Bool {
+        a.modificationDate == b.modificationDate && a.isGeneric == b.isGeneric
+    }
+}
+
 /// Pinned folders, saved servers and mounted volumes for the sidebar.
 /// Persistence and list edits live in `FavoritesStore` and `SavedServers`
 /// (Core); this adds publishing and volume mount tracking, so pins on a
@@ -24,7 +42,7 @@ class FavoritesService: ObservableObject {
     /// included: one asked for on the main thread would wait on a share that
     /// has stopped answering (PinnedFolderReader). None yet for a folder
     /// that hasn't answered.
-    @Published private(set) var pinnedFolders: [String: PinnedFolderAnswer<NSImage>] = [:]
+    @Published private(set) var pinnedFolders: [String: PinnedFolderAnswer<FolderIconInfo>] = [:]
     /// Every mounted volume Finder would list; the sidebar picks the rows
     /// (SidebarVolumes.rows).
     @Published private(set) var volumes: [SidebarVolume] = []
@@ -40,13 +58,14 @@ class FavoritesService: ObservableObject {
     /// and never holding up the other volumes (SidebarVolumeReader).
     private var volumeReader: SidebarVolumeReader<MountedVolume>?
     /// The same for the pinned folders.
-    private var pinnedReader: PinnedFolderReader<NSImage>?
+    private var pinnedReader: PinnedFolderReader<FolderIconInfo>?
 
     init(store: FavoritesStore = FavoritesStore(), serverStore: SavedServersStore = SavedServersStore()) {
         self.store = store
         self.serverStore = serverStore
         pinnedReader = PinnedFolderReader(hooks: .init(read: Self.readFolderIcon)) { [weak self] answers in
-            self?.pinnedFolders = answers
+            // A refresh that read nothing new doesn't redraw every sidebar.
+            if self?.pinnedFolders != answers { self?.pinnedFolders = answers }
         }
         load()
         savedServers = serverStore.load()
@@ -89,14 +108,21 @@ class FavoritesService: ObservableObject {
     /// which on the main thread could wait on a share that has stopped answering.
     /// One that can't be drawn gets the generic icon: the folder's own would
     /// be read when the row draws it.
-    static func readFolderIcon(_ url: URL) -> NSImage? {
+    static func readFolderIcon(_ url: URL) -> FolderIconInfo? {
         guard FavoritesStore.isAvailable(url) else { return nil }
+        // A new URL: resource values are cached on the URL (and its copies),
+        // and the readers pass the same ones every time.
+        let fresh = URL(fileURLWithPath: url.path)
+        let modificationDate = try? fresh.resourceValues(forKeys: [.attributeModificationDateKey])
+            .attributeModificationDate
         let icon = NSWorkspace.shared.icon(forFile: url.path)
         var rect = NSRect(x: 0, y: 0, width: 64, height: 64)
         guard let pixels = icon.cgImage(forProposedRect: &rect, context: nil, hints: nil) else {
-            return NSWorkspace.shared.icon(for: .folder)
+            return FolderIconInfo(image: NSWorkspace.shared.icon(for: .folder),
+                                  modificationDate: modificationDate, isGeneric: true)
         }
-        return NSImage(cgImage: pixels, size: NSSize(width: 32, height: 32))
+        return FolderIconInfo(image: NSImage(cgImage: pixels, size: NSSize(width: 32, height: 32)),
+                              modificationDate: modificationDate, isGeneric: false)
     }
 
     /// Until its read answers, a pinned folder counts as there.
@@ -108,7 +134,7 @@ class FavoritesService: ObservableObject {
     /// A pinned folder's icon, as read; nil until it's been read, and for
     /// one the guard refused.
     func pinnedIcon(_ url: URL) -> NSImage? {
-        if case .present(let icon) = pinnedFolders[ShellPath.key(url)] { return icon }
+        if case .present(let icon) = pinnedFolders[ShellPath.key(url)] { return icon.image }
         return nil
     }
 
@@ -718,7 +744,7 @@ final class RecentFoldersModel: ObservableObject {
     /// (RecentFolders.visible). Those found missing leave.
     @Published private(set) var folders: [URL] = []
     /// What the reader found, by ShellPath.key; none yet for a folder not read.
-    @Published private(set) var answers: [String: PinnedFolderAnswer<NSImage>] = [:]
+    @Published private(set) var answers: [String: PinnedFolderAnswer<FolderIconInfo>] = [:]
     /// Whether the first answers have come. Until then the section stays
     /// hidden, so folders that have gone don't flash up and vanish.
     @Published private(set) var isListed = false
@@ -726,10 +752,18 @@ final class RecentFoldersModel: ObservableObject {
     /// Stored folders not shown, read but kept back until they're found
     /// there: one that left with its drive comes back when it's mounted.
     private var waiting: [URL] = []
-    private var reader: PinnedFolderReader<NSImage>?
+    private var reader: PinnedFolderReader<FolderIconInfo>?
+    /// Checks each folder opened before it joins (RecentFolderCheckReader).
+    private var folderChecks: RecentFolderCheckReader?
     private var mountObservers: [NSObjectProtocol] = []
 
     private init() {
+        folderChecks = RecentFolderCheckReader { [weak self] path, isFolder in
+            guard isFolder else { return }
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated { self?.visit(URL(fileURLWithPath: path, isDirectory: true)) }
+            }
+        }
         reader = PinnedFolderReader(hooks: .init(read: FavoritesService.readFolderIcon)) { [weak self] answers in
             // Delivered on the main queue.
             MainActor.assumeIsolated { self?.answered(answers) }
@@ -746,16 +780,23 @@ final class RecentFoldersModel: ObservableObject {
 
     /// A folder's icon, as read; nil until then, and for one the guard refused.
     func icon(_ url: URL) -> NSImage? {
-        if case .present(let icon)? = answers[ShellPath.key(url)] { return icon }
+        if case .present(let icon)? = answers[ShellPath.key(url)] { return icon.image }
         return nil
+    }
+
+    /// A window showing `url`: it joins Recent once a check off the main
+    /// thread finds it's a folder (RecentFolderCheckReader).
+    func visited(_ url: URL) {
+        folderChecks?.visit(url)
     }
 
     /// Stores a visit to `url` and reads it (and any folder found missing) in
     /// the background; the others keep their answers.
-    func visit(_ url: URL, limit: Int) {
+    private func visit(_ url: URL) {
         let defaults = UserDefaults.standard
         let stored = defaults.stringArray(forKey: RecentFolders.defaultsKey) ?? []
         defaults.set(RecentFolders.stored(stored, visiting: url.path), forKey: RecentFolders.defaultsKey)
+        let limit = SidebarPrefs.recentCount(defaults.object(forKey: SidebarPrefs.recentCountKey) as? Int)
         let rows = RecentFolders.visible(folders, visiting: url, limit: limit)
         if rows != folders { folders = rows }
         waiting.removeAll { ShellPath.same($0, url) }
@@ -774,8 +815,9 @@ final class RecentFoldersModel: ObservableObject {
         RecentFolders.urls(UserDefaults.standard.stringArray(forKey: RecentFolders.defaultsKey) ?? [])
     }
 
-    private func answered(_ answers: [String: PinnedFolderAnswer<NSImage>]) {
-        if !Self.same(answers, self.answers) { self.answers = answers }
+    private func answered(_ answers: [String: PinnedFolderAnswer<FolderIconInfo>]) {
+        // A visit that read nothing new doesn't redraw every sidebar.
+        if answers != self.answers { self.answers = answers }
         // Gone by the reader's answer now, not this list's: a folder read
         // again since it was made may be there after all.
         let merged = RecentFolders.merged(folders, waiting: waiting, answers: answers) { [reader] in
@@ -784,19 +826,6 @@ final class RecentFoldersModel: ObservableObject {
         waiting = merged.waiting
         if merged.rows != folders { folders = merged.rows }
         if !isListed { isListed = true }
-    }
-
-    /// Whether two lists say the same, the same icons included, so a visit
-    /// that read nothing new doesn't redraw every sidebar.
-    private static func same(_ a: [String: PinnedFolderAnswer<NSImage>],
-                             _ b: [String: PinnedFolderAnswer<NSImage>]) -> Bool {
-        a.count == b.count && a.allSatisfy { key, answer in
-            switch (answer, b[key]) {
-            case (.refused, .refused?), (.missing, .missing?): return true
-            case (.present(let x), .present(let y)?):         return x === y
-            default:                                           return false
-            }
-        }
     }
 }
 
@@ -949,9 +978,7 @@ struct SidebarView: View {
         }
         .onChange(of: showTags) { _, shown in if shown { tagCatalog.scanIfStale() } }
         .onChange(of: location) { _, location in
-            // Not `hasDirectoryPath`: a folder reached through a symlink (e.g. a
-            // ~/Downloads link to another volume) has no trailing slash.
-            if let path = location.folder, FileItem.isBrowsableFolder(path) { addToRecent(path) }
+            if let path = location.folder { recent.visited(path) }
             selection = matchingItem(for: location)
         }
         // The rows changing (here or in another window) leaves a highlighted
@@ -1229,10 +1256,6 @@ struct SidebarView: View {
 
     /// The generic folder icon, for a row whose folder mustn't be looked at.
     private static let folderIcon = NSWorkspace.shared.icon(for: .folder)
-
-    private func addToRecent(_ url: URL) {
-        recent.visit(url, limit: SidebarPrefs.recentCount(recentCount))
-    }
 
     @ViewBuilder
     private func tagRow(tag: SidebarTag) -> some View {

@@ -136,7 +136,7 @@ import Testing
         let started = DispatchSemaphore(value: 0)
         let release = DispatchSemaphore(value: 0)
         let count = LockedInt()
-        let reader = DiskCapacityReader(timeout: 0.08) { _ in
+        let reader = DiskCapacityReader(timeout: 0.5) { _ in
             count.increment()
             started.signal()
             release.wait()
@@ -145,13 +145,42 @@ import Testing
         let url = URL(fileURLWithPath: "/Volumes/Slow", isDirectory: true)
         let first = Task { await reader.read(at: url) }
         #expect(await waitForSignal(started) == .success)
-
+        let forced = Task { await reader.read(at: url, forceRefresh: true) }
+        try? await Task.sleep(for: .milliseconds(20))
         let second = await reader.read(at: url)
         let firstResult = await first.value
+        let forcedResult = await forced.value
         #expect(firstResult == .unavailable)
         #expect(second == .unavailable)
+        #expect(forcedResult == .unavailable)
         #expect(count.value == 1)
         release.signal()
+    }
+
+    @Test func aForcedRefreshWaitsForTheCurrentReadThenReadsAgain() async {
+        let started = DispatchSemaphore(value: 0)
+        let release = DispatchSemaphore(value: 0)
+        let count = LockedInt()
+        let reader = DiskCapacityReader(timeout: 1) { _ in
+            let read = count.incrementAndGet()
+            if read == 1 {
+                started.signal()
+                release.wait()
+                return (100, 25)
+            }
+            return (100, 10)
+        }
+        let url = URL(fileURLWithPath: "/Volumes/Changing", isDirectory: true)
+        let first = Task { await reader.read(at: url) }
+        #expect(await waitForSignal(started) == .success)
+        let refreshed = Task { await reader.read(at: url, forceRefresh: true) }
+        try? await Task.sleep(for: .milliseconds(20))
+        #expect(count.value == 1)
+
+        release.signal()
+        #expect(await first.value == .known(total: 100, free: 25))
+        #expect(await refreshed.value == .known(total: 100, free: 10))
+        #expect(count.value == 2)
     }
 
     @Test func aHungNetworkReadDoesNotBlockAnotherVolume() async {
@@ -195,14 +224,18 @@ import Testing
         private let lock = NSLock()
         private var stored = 0
         var value: Int { lock.lock(); defer { lock.unlock() }; return stored }
-        func increment() { lock.lock(); stored += 1; lock.unlock() }
+        func increment() { _ = incrementAndGet() }
+        func incrementAndGet() -> Int { lock.lock(); defer { lock.unlock() }; stored += 1; return stored }
     }
 
-    /// Waits on a GCD thread: blocking a Swift concurrency thread can starve
-    /// the pool while other tests run in parallel.
+    /// Waits for a read to start. On a thread of its own, not the shared pool:
+    /// the reader's reads run on that pool, which on a small Linux runner has
+    /// about one thread per core, and a waiting thread there can hold up the
+    /// very read it waits for. A generous limit, since a passing run signals
+    /// at once.
     private func waitForSignal(_ semaphore: DispatchSemaphore) async -> DispatchTimeoutResult {
         await withCheckedContinuation { continuation in
-            DispatchQueue.global().async { continuation.resume(returning: semaphore.wait(timeout: .now() + 1)) }
+            Thread { continuation.resume(returning: semaphore.wait(timeout: .now() + 10)) }.start()
         }
     }
 }

@@ -4,6 +4,19 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <channel>
         <title>Selway</title>
         <item>
+            <title>0.5.24</title>
+            <pubDate>Tue, 17 Nov 2026 17:53:57 -0800</pubDate>
+            <link>https://github.com/toddbartholow/selway/releases</link>
+            <sparkle:version>25</sparkle:version>
+            <sparkle:shortVersionString>0.5.24</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.24/Selway-0.5.24.dmg" length="8163788" type="application/octet-stream" sparkle:edSignature="XZ8GFGPL8qwBmeGIf5bWcGmiLhYdGasUeaU2OfdVVbgSi/Xvqt5zxcqQHVVVKWAMR00RADw4/gTe9ApRGHl1CQ=="></enclosure>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.24/Selway25-23.delta" sparkle:deltaFrom="23" length="825214" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="976240" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="c1shVyuheH1fHC7hTStNKgTpWN80MuNJ2z5nGminqBSc6CkaeGQ57wg3Sfzzr9vMl12Aas4JzrUut1yUaAQ2Cg=="></enclosure>
+                <enclosure url="https://github.com/toddbartholow/selway/releases/download/v0.5.24/Selway25-22.delta" sparkle:deltaFrom="22" length="827330" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="976240" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="BpG3+vy1XQ8jcA+xsv73hvhMQWmcFSBIr0EoK+ZacznNnGPGgxEf51JetWnqPzdRVHkCehPQ3nBnUCo2uuRgDA=="></enclosure>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.5.22</title>
             <pubDate>Sun, 08 Nov 2026 17:58:48 -0800</pubDate>
             <link>https://github.com/toddbartholow/selway/releases</link>
@@ -26,6 +39,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
         </item>
     </channel>
 </rss><!-- sparkle-signatures:
-edSignature: AomLq2okWqlinRsULvN9OBH+bXl+V+CKvxR1eyjuYFnZLml0dhlwDHv5eOIxyuB3oC46tcyRzuRayYwd61WZCg==
-length: 2302
+edSignature: 02PyXEI9BQv7P5mITUU3JZVc+VuTNqTXet8tzBNOdt3k2Zy7DibZFSWfibpTbsCcIhyZ9YArvp5NBT3jiEz4Ag==
+length: 3883
 -->
